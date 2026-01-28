@@ -1,2898 +1,6372 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>GTM Cricket Team - Payment Tracker</title>
 
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+
         * {
+
             margin: 0;
+
             padding: 0;
+
             box-sizing: border-box;
+
             font-family: 'Segoe UI', Arial, sans-serif;
+
         }
+
+
 
         :root {
+
             --primary: #0b1220;
+
             --secondary: #111a30;
+
             --accent: #d4af37;
+
             --danger: #dc2626;
+
             --warning: #d97706;
+
             --success: #16a34a;
+
             --light-bg: #070b14;
+
             --dark-bg: #f8fafc;
+
             --card-bg: rgba(255, 255, 255, 0.06);
+
             --text: #eaf0ff;
+
             --text-light: rgba(234, 240, 255, 0.70);
+
             --border: rgba(212, 175, 55, 0.22);
+
             --shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+
             --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.22);
+
         }
+
+
 
         .dark-mode {
+
             --light-bg: #f6f2e7;
+
             --dark-bg: #0b1220;
+
             --card-bg: rgba(255, 255, 255, 0.85);
+
             --text: #0b1220;
+
             --text-light: rgba(11, 18, 32, 0.65);
+
             --border: rgba(11, 18, 32, 0.14);
+
             --shadow: 0 14px 40px rgba(11, 18, 32, 0.18);
+
             --shadow-soft: 0 10px 28px rgba(11, 18, 32, 0.12);
+
         }
+
+
 
         body {
+
             background-color: var(--light-bg);
+
             background-image:
+
                 radial-gradient(900px 420px at 18% 10%, rgba(212, 175, 55, 0.14), transparent 62%),
+
                 radial-gradient(700px 380px at 82% 18%, rgba(79, 127, 255, 0.12), transparent 60%),
+
                 radial-gradient(800px 500px at 50% 92%, rgba(212, 175, 55, 0.08), transparent 62%);
+
             color: var(--text);
+
             transition: all 0.3s ease;
+
             min-height: 100vh;
+
         }
+
+
 
         .container {
+
             max-width: 1100px;
+
             padding: 18px;
+
             margin: 0 auto;
+
         }
+
+
 
         .hidden {
+
             display: none !important;
+
         }
+
+
 
         .header-actions {
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
         }
+
+
 
         .menu-toggle {
+
             display: none;
+
             align-items: center;
+
             justify-content: center;
+
             width: 42px;
+
             height: 42px;
+
             border-radius: 12px;
+
             background: rgba(255, 255, 255, 0.06);
+
             border: 1px solid var(--border);
+
             color: var(--text);
+
             cursor: pointer;
+
             box-shadow: var(--shadow-soft);
+
         }
+
+
 
         .role-pill {
+
             display: inline-flex;
+
             align-items: center;
+
             gap: 8px;
+
             padding: 8px 12px;
+
             border-radius: 999px;
+
             background: rgba(255, 255, 255, 0.06);
+
             border: 1px solid var(--border);
+
             color: var(--text);
+
             font-weight: 800;
+
             font-size: 0.85rem;
+
         }
+
+
 
         /* Header */
+
         .header {
+
             position: relative;
+
             overflow: hidden;
+
             background:
+
                 linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)),
+
                 radial-gradient(900px 420px at 20% 10%, rgba(212, 175, 55, 0.30), transparent 60%),
+
                 linear-gradient(135deg, var(--primary), var(--secondary));
+
             color: var(--text);
+
             padding: 18px 18px;
+
             border-radius: 18px;
+
             margin-bottom: 18px;
+
             box-shadow: var(--shadow);
+
             border: 1px solid var(--border);
+
             backdrop-filter: blur(10px);
+
         }
+
+
 
         .header::after {
+
             content: "";
+
             position: absolute;
+
             inset: -80px -120px auto -120px;
+
             height: 160px;
+
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.32), transparent);
+
             transform: rotate(-12deg);
+
             pointer-events: none;
+
         }
+
+
 
         .header-top {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             margin-bottom: 15px;
+
             gap: 12px;
+
         }
+
+
 
         .header h1 {
+
             font-size: 2.2rem;
+
             font-weight: 800;
+
             letter-spacing: 0.3px;
+
             color: var(--text);
+
             text-align: center;
+
             display: flex;
+
             align-items: center;
+
             gap: 12px;
+
             background: linear-gradient(135deg, #fbbf24, #f59e0b, #dc2626, #7c3aed, #3b82f6);
+
             -webkit-background-clip: text;
+
             -webkit-text-fill-color: transparent;
+
             background-clip: text;
+
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
         }
+
+
 
         .header h1 i {
+
             color: var(--accent);
+
             filter: drop-shadow(0 8px 18px rgba(212, 175, 55, 0.25));
+
         }
+
+
 
         .current-month {
+
             font-size: 1.05rem;
+
             color: var(--text-light);
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
             justify-content: center;
+
             margin: 10px 0;
+
         }
+
+
 
         .month-nav {
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 14px;
+
             margin-top: 8px;
+
             color: var(--text-light);
+
         }
+
+
 
         .month-btn {
+
             background: rgba(255,255,255,0.08);
+
             border: 1px solid var(--border);
+
             color: var(--text);
+
             width: 36px;
+
             height: 36px;
+
             border-radius: 50%;
+
             cursor: pointer;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             box-shadow: var(--shadow-soft);
+
         }
+
+
 
         .month-btn:hover {
+
             transform: translateY(-1px);
+
             background: rgba(212, 175, 55, 0.12);
+
         }
+
+
 
         /* Main Dashboard Cards */
+
         .dashboard-cards {
+
             display: grid;
+
             grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+
             gap: 12px;
+
             margin-bottom: 18px;
+
         }
+
+
 
         .dashboard-card {
+
             background: var(--card-bg);
+
             border-radius: 14px;
+
             padding: 14px 14px;
+
             box-shadow: var(--shadow-soft);
+
             border: 1px solid var(--border);
+
             backdrop-filter: blur(10px);
+
         }
+
+
 
         .dashboard-card.clickable {
+
             cursor: pointer;
+
         }
+
+
 
         .dashboard-card.clickable:hover {
+
             transform: translateY(-1px);
+
             border-color: rgba(212, 175, 55, 0.42);
+
         }
+
+
 
         .card-header {
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
             margin-bottom: 10px;
+
         }
+
+
 
         .card-header i {
+
             font-size: 1.15rem;
+
             color: var(--accent);
+
         }
+
+
 
         .card-header h3 {
+
             font-size: 0.92rem;
+
             color: var(--text-light);
+
             letter-spacing: 0.2px;
+
         }
+
+
 
         .card-amount {
+
             font-size: 1.55rem;
+
             font-weight: 800;
+
             margin-bottom: 4px;
+
             letter-spacing: 0.2px;
+
         }
+
+
 
         .card-note {
+
             font-size: 0.85rem;
+
             color: var(--text-light);
+
             margin-top: 5px;
+
         }
+
+
 
         .total-amount { color: var(--accent); }
+
         .total-expenses { color: var(--danger); }
+
         .previous-balance { color: var(--warning); }
+
         .players-summary { color: var(--accent); }
 
+
+
         /* Player Stats */
+
         .player-stats {
+
             background: var(--card-bg);
+
             border-radius: 16px;
+
             padding: 18px;
+
             margin-bottom: 18px;
+
             box-shadow: var(--shadow-soft);
+
             border: 1px solid var(--border);
+
             backdrop-filter: blur(10px);
+
         }
+
+
 
         .stats-grid {
+
             display: grid;
+
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
             gap: 15px;
+
         }
+
+
 
         .stat-item {
+
             text-align: center;
+
             padding: 15px;
+
             border-radius: 14px;
+
             background: rgba(255, 255, 255, 0.05);
+
             border: 1px solid rgba(212, 175, 55, 0.16);
+
         }
+
+
 
         .stat-value {
+
             font-size: 2rem;
+
             font-weight: 900;
+
             color: var(--accent);
+
         }
+
+
 
         .stat-label {
+
             font-size: 0.9rem;
+
             color: var(--text-light);
+
             margin-top: 5px;
+
         }
+
+
 
         /* Tabs Navigation */
+
         .tabs {
+
             display: flex;
+
             background: var(--card-bg);
+
             border-radius: 14px;
+
             overflow: hidden;
+
             margin-bottom: 18px;
+
             box-shadow: var(--shadow-soft);
+
             border: 1px solid var(--border);
+
             backdrop-filter: blur(10px);
+
         }
+
+
 
         .tab {
+
             flex: 1;
+
             text-align: center;
+
             padding: 15px;
+
             border: none;
+
             background: none;
+
             color: var(--text-light);
+
             font-weight: 600;
+
             cursor: pointer;
+
             transition: all 0.3s;
+
             font-size: 0.95rem;
+
         }
+
+
 
         .tab:hover {
+
             background: rgba(255, 255, 255, 0.04);
+
         }
+
+
 
         .tab.active {
+
             background: rgba(212, 175, 55, 0.16);
+
             color: var(--text);
+
         }
+
+
 
         .tab-content {
+
             display: none;
+
         }
+
+
 
         .tab-content.active {
+
             display: block;
+
         }
+
+
 
         /* Players List */
+
         .players-section {
+
             background: var(--card-bg);
+
             border-radius: 16px;
+
             padding: 18px;
+
             margin-bottom: 18px;
+
             box-shadow: var(--shadow-soft);
+
             border: 1px solid var(--border);
+
             backdrop-filter: blur(10px);
+
         }
+
+
 
         .section-header {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             margin-bottom: 20px;
+
             flex-wrap: wrap;
+
             gap: 15px;
+
         }
+
+
 
         .section-header h2 {
+
             font-size: 1.3rem;
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
         }
+
+
 
         .search-box {
+
             flex: 1;
+
             max-width: 300px;
+
             position: relative;
+
         }
+
+
 
         .search-box input {
+
             width: 100%;
+
             padding: 12px 40px 12px 15px;
+
             border: 1px solid var(--border);
+
             border-radius: 10px;
+
             background: rgba(255, 255, 255, 0.06);
+
             color: var(--text);
+
             font-size: 0.95rem;
+
         }
+
+
 
         .search-box i {
+
             position: absolute;
+
             right: 15px;
+
             top: 50%;
+
             transform: translateY(-50%);
+
             color: var(--text-light);
+
         }
+
+
 
         .add-btn {
+
             background: rgba(212, 175, 55, 0.16);
+
             color: var(--text);
+
             border: 1px solid var(--border);
+
             padding: 11px 16px;
+
             border-radius: 12px;
+
             font-weight: 800;
+
             cursor: pointer;
+
             display: flex;
+
             align-items: center;
+
             gap: 8px;
+
             font-size: 0.92rem;
+
             box-shadow: var(--shadow-soft);
+
         }
+
+
 
         .add-btn:hover {
+
             background: rgba(212, 175, 55, 0.24);
+
             transform: translateY(-1px);
+
         }
+
+
 
         .players-list {
+
             display: grid;
+
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
             gap: 15px;
+
         }
+
+
 
         .player-card {
+
             background: rgba(255, 255, 255, 0.06);
+
             border-radius: 16px;
+
             padding: 16px;
+
             box-shadow: var(--shadow-soft);
+
             border: 1px solid var(--border);
+
             cursor: pointer;
+
             transition: all 0.25s;
+
             backdrop-filter: blur(10px);
+
         }
+
+
 
         .player-card:hover {
+
             transform: translateY(-2px);
+
             box-shadow: var(--shadow);
+
             border-color: rgba(212, 175, 55, 0.42);
+
         }
+
+
 
         .player-header {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             margin-bottom: 15px;
+
         }
+
+
 
         .player-name {
+
             font-weight: 900;
+
             font-size: 1.12rem;
+
             color: var(--text);
+
             letter-spacing: 0.2px;
+
         }
+
+
 
         .player-phone {
+
             font-size: 0.9rem;
+
             color: var(--text-light);
+
         }
+
+
 
         .player-details {
+
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 10px;
+
             margin-top: 15px;
+
         }
+
+
 
         .detail-item {
+
             font-size: 0.9rem;
+
         }
+
+
 
         .detail-label {
+
             color: var(--text-light);
+
             font-size: 0.8rem;
+
             margin-bottom: 3px;
+
         }
+
+
 
         .payment-status {
+
             display: inline-block;
+
             padding: 4px 10px;
+
             border-radius: 20px;
+
             font-size: 0.8rem;
+
             font-weight: 600;
+
         }
+
+
 
         .status-paid { background: rgba(22, 163, 74, 0.16); color: var(--success); border: 1px solid rgba(22, 163, 74, 0.30); }
+
         .status-partial { background: rgba(217, 119, 6, 0.16); color: var(--warning); border: 1px solid rgba(217, 119, 6, 0.30); }
+
         .status-pending { background: rgba(220, 38, 38, 0.14); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.26); }
+
         .status-overpaid { background: rgba(212, 175, 55, 0.14); color: var(--accent); border: 1px solid rgba(212, 175, 55, 0.26); }
 
+
+
         /* Player Details Modal */
+
         .modal {
+
             display: none;
+
             position: fixed;
+
             top: 0;
+
             left: 0;
+
             width: 100%;
+
             height: 100%;
+
             background: rgba(0,0,0,0.5);
+
             z-index: 1000;
+
             align-items: center;
+
             justify-content: center;
+
             padding: 15px;
+
         }
+
+
 
         .modal-content {
+
             background: var(--card-bg);
+
             width: 100%;
+
             max-width: 800px;
+
             max-height: 90vh;
+
             border-radius: 18px;
+
             overflow: hidden;
+
             box-shadow: var(--shadow);
+
             border: 1px solid var(--border);
+
             backdrop-filter: blur(12px);
+
         }
+
+
 
         .modal-header {
+
             background:
+
                 linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(255, 255, 255, 0.06)),
+
                 linear-gradient(135deg, var(--primary), var(--secondary));
+
             color: var(--text);
+
             padding: 20px;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             border-bottom: 1px solid var(--border);
+
         }
+
+
 
         .modal-header h2 {
+
             font-size: 1.4rem;
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
+
         }
+
+
 
         .close-modal {
+
             background: none;
+
             border: none;
+
             color: var(--text);
+
             font-size: 1.5rem;
+
             cursor: pointer;
+
             width: 40px;
+
             height: 40px;
+
             border-radius: 50%;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
         }
+
+
 
         .close-modal:hover {
+
             background: rgba(255,255,255,0.1);
+
         }
+
+
 
         .modal-body {
+
             padding: 20px;
+
             overflow-y: auto;
+
             max-height: calc(90vh - 80px);
+
         }
+
+
 
         /* Add Entry Form */
+
         .add-entry-form {
+
             background: rgba(255, 255, 255, 0.05);
+
             border-radius: 14px;
+
             padding: 20px;
+
             margin-bottom: 25px;
+
             border: 1px solid var(--border);
+
         }
+
+
 
         .form-row {
+
             display: grid;
+
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
             gap: 15px;
+
             margin-bottom: 15px;
+
         }
+
+
 
         .form-group {
+
             display: flex;
+
             flex-direction: column;
+
         }
+
+
 
         .form-group label {
+
             font-size: 0.9rem;
+
             color: var(--text-light);
+
             margin-bottom: 5px;
+
             font-weight: 500;
+
         }
+
+
 
         .form-group input, .form-group select {
+
             padding: 12px 15px;
+
             border: 1px solid var(--border);
+
             border-radius: 10px;
+
             background: rgba(255, 255, 255, 0.06);
+
             color: var(--text);
+
             font-size: 0.95rem;
+
             transition: all 0.3s;
+
         }
+
+
 
         .form-group select {
+
             -webkit-appearance: none;
+
             -moz-appearance: none;
+
             appearance: none;
+
             padding-right: 42px;
+
             background-image:
+
                 linear-gradient(45deg, transparent 50%, var(--text-light) 50%),
+
                 linear-gradient(135deg, var(--text-light) 50%, transparent 50%);
+
             background-position:
+
                 calc(100% - 20px) calc(50% - 2px),
+
                 calc(100% - 14px) calc(50% - 2px);
+
             background-size: 6px 6px;
+
             background-repeat: no-repeat;
+
         }
+
+
 
         body:not(.dark-mode) .form-group select option {
+
             background-color: #0b1220;
+
             color: #eaf0ff;
+
         }
+
+
 
         body.dark-mode .form-group select option {
+
             background-color: #ffffff;
+
             color: #0b1220;
+
         }
+
+
 
         .form-group input:focus, .form-group select:focus {
+
             outline: none;
+
             border-color: var(--primary);
+
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+
         }
+
+
 
         .form-actions {
+
             display: flex;
+
             gap: 10px;
+
             margin-top: 20px;
+
         }
+
+
 
         .btn {
+
             padding: 12px 24px;
+
             border: none;
+
             border-radius: 8px;
+
             font-weight: 600;
+
             cursor: pointer;
+
             font-size: 0.95rem;
+
             display: flex;
+
             align-items: center;
+
             gap: 8px;
+
             transition: all 0.3s;
+
         }
+
+
 
         .btn-primary {
+
             background: rgba(212, 175, 55, 0.18);
+
             color: var(--text);
+
             border: 1px solid var(--border);
+
         }
+
+
 
         .btn-success {
+
             background: rgba(22, 163, 74, 0.16);
+
             color: var(--text);
+
             border: 1px solid rgba(22, 163, 74, 0.32);
+
         }
+
+
 
         .btn-danger {
+
             background: rgba(220, 38, 38, 0.14);
+
             color: var(--text);
+
             border: 1px solid rgba(220, 38, 38, 0.28);
+
         }
+
+
 
         /* Entries List */
+
         .entries-list {
+
             margin-top: 25px;
+
         }
+
+
 
         .entry-item {
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             padding: 15px;
+
             border-bottom: 1px solid var(--border);
+
             transition: all 0.3s;
+
         }
+
+
 
         .entry-item:hover {
+
             background: rgba(37, 99, 235, 0.03);
+
         }
+
+
 
         .entry-info h4 {
+
             font-size: 1rem;
+
             margin-bottom: 5px;
+
         }
+
+
 
         .entry-date {
+
             font-size: 0.85rem;
+
             color: var(--text-light);
+
         }
+
+
 
         .entry-amount {
+
             font-weight: bold;
+
             font-size: 1.1rem;
+
         }
+
+
 
         .entry-status {
+
             font-size: 0.85rem;
+
             padding: 3px 8px;
+
             border-radius: 12px;
+
             margin-left: 10px;
+
         }
+
+
 
         /* Empty States */
+
         .empty-state {
+
             text-align: center;
+
             padding: 40px 20px;
+
             color: var(--text-light);
+
         }
+
+
 
         .empty-state i {
+
             font-size: 3rem;
+
             margin-bottom: 15px;
+
             opacity: 0.3;
+
         }
+
+
 
         /* Footer */
+
         .footer {
+
             text-align: center;
+
             margin-top: 30px;
+
             padding: 20px;
+
             color: var(--text-light);
+
             font-size: 0.85rem;
+
             border-top: 1px solid var(--border);
+
         }
+
+
 
         /* Responsive */
+
         @media (max-width: 768px) {
+
             .container {
+
                 padding: 12px;
+
             }
+
+
 
             .header {
+
                 padding: 14px 14px;
+
             }
+
+
 
             .header h1 {
+
                 font-size: 1.25rem;
+
                 flex: 1;
+
             }
+
+
 
             .menu-toggle {
+
                 display: inline-flex;
+
                 margin-left: auto;
+
             }
+
+
 
             .header-actions {
+
                 display: none;
+
             }
+
+
 
             .header-top {
+
                 flex-wrap: wrap;
+
                 align-items: center;
+
             }
+
+
 
             .dashboard-cards {
+
                 grid-template-columns: 1fr;
+
             }
+
             
+
             .players-list {
+
                 grid-template-columns: 1fr;
+
             }
+
             
+
             .form-row {
+
                 grid-template-columns: 1fr;
+
             }
+
             
+
             .section-header {
+
                 flex-direction: column;
+
                 align-items: stretch;
+
             }
+
             
+
             .search-box {
+
                 max-width: 100%;
+
             }
+
+
 
             .header-actions.open {
+
                 display: flex;
+
                 width: 100%;
+
                 flex-direction: column;
+
                 align-items: stretch;
+
                 gap: 10px;
+
                 margin-top: 10px;
+
             }
+
+
 
             .header-actions .btn {
+
                 width: 100%;
+
                 justify-content: center;
+
             }
+
         }
+
+
 
         #authModal .form-row,
+
         #changePasswordModal .form-row {
+
             grid-template-columns: 1fr;
+
         }
+
+
 
         #authModal .form-actions,
+
         #changePasswordModal .form-actions {
+
             justify-content: flex-end;
+
         }
+
+
 
         .simple-table {
+
             width: 100%;
+
             border-collapse: collapse;
+
             overflow: hidden;
+
             border-radius: 14px;
+
             border: 1px solid var(--border);
+
         }
+
+
 
         .simple-table th,
+
         .simple-table td {
+
             text-align: left;
+
             padding: 12px 12px;
+
             border-bottom: 1px solid rgba(212, 175, 55, 0.14);
+
             font-size: 0.92rem;
+
         }
+
+
 
         .simple-table th {
+
             color: var(--text-light);
+
             font-weight: 900;
+
             background: rgba(255, 255, 255, 0.06);
+
         }
+
+
 
         .simple-table tr:last-child td {
+
             border-bottom: none;
+
         }
+
+
 
         .pill {
+
             display: inline-flex;
+
             align-items: center;
+
             gap: 8px;
+
             padding: 6px 10px;
+
             border-radius: 999px;
+
             font-weight: 900;
+
             border: 1px solid rgba(212, 175, 55, 0.18);
+
             background: rgba(255, 255, 255, 0.05);
+
             font-size: 0.85rem;
+
         }
+
+
 
         .pill-success { color: var(--success); border-color: rgba(22, 163, 74, 0.35); background: rgba(22, 163, 74, 0.10); }
+
         .pill-warning { color: var(--warning); border-color: rgba(217, 119, 6, 0.35); background: rgba(217, 119, 6, 0.10); }
+
         .pill-danger { color: var(--danger); border-color: rgba(220, 38, 38, 0.35); background: rgba(220, 38, 38, 0.10); }
 
+
+
         .top-tabs {
+
             display: flex;
+
             background: var(--card-bg);
+
             border-radius: 14px;
+
             overflow: hidden;
+
             margin-bottom: 18px;
+
             box-shadow: var(--shadow-soft);
+
             border: 1px solid var(--border);
+
             backdrop-filter: blur(10px);
+
         }
+
+
 
         .top-tab {
+
             flex: 1;
+
             text-align: center;
+
             padding: 15px;
+
             border: none;
+
             background: none;
+
             color: var(--text-light);
+
             font-weight: 600;
+
             cursor: pointer;
+
             transition: all 0.3s;
+
             font-size: 0.95rem;
+
         }
+
+
 
         .top-tab:hover {
+
             background: rgba(255, 255, 255, 0.04);
+
         }
+
+
 
         .top-tab.active {
+
             background: rgba(212, 175, 55, 0.16);
+
             color: var(--text);
+
         }
+
+
 
         .player-tabs {
+
             display: flex;
+
             background: var(--card-bg);
+
             border-radius: 10px;
+
             overflow: hidden;
+
             border: 1px solid var(--border);
+
         }
+
+
 
         .player-tab {
+
             flex: 1;
+
             padding: 12px;
+
             border: none;
+
             background: none;
+
             color: var(--text-light);
+
             font-weight: 600;
+
             cursor: pointer;
+
             transition: all 0.3s;
+
             font-size: 0.9rem;
+
         }
+
+
 
         .player-tab:hover {
+
             background: rgba(255, 255, 255, 0.04);
+
         }
+
+
 
         .player-tab.active {
+
             background: rgba(212, 175, 55, 0.16);
+
             color: var(--text);
+
         }
 
+
+
         .player-tab-content {
+
             display: none;
+
         }
 
         .player-tab-content.active {
+
             display: block;
+
         }
 
         @media (max-width: 768px) {
+
             .modal-content {
+
                 margin: 10px;
+
                 max-width: calc(100vw - 20px);
+
                 max-height: calc(100vh - 20px);
+
                 overflow-y: auto;
+
             }
 
             .player-summary {
+
                 padding: 15px !important;
+
             }
 
             .player-tabs {
+
                 flex-direction: column;
+
             }
 
             .player-tab {
+
                 padding: 14px;
+
                 text-align: center;
+
             }
+
         }
 
         #authModal .form-row,
+
         #changePasswordModal .form-row {
+
             grid-template-columns: 1fr;
+
         }
 
+
+
         #authModal .form-actions,
+
         #changePasswordModal .form-actions {
+
             justify-content: flex-end;
+
+        }
+
+
+
+        .profile-dropdown {
+
+            position: relative;
+
+            display: inline-block;
+
+        }
+
+
+
+        .profile-dropdown #profileBtn i:last-child {
+
+            font-size: 0.8rem;
+
+            margin-left: 4px;
+
+        }
+
+
+
+        .dropdown-menu {
+
+            position: absolute;
+
+            top: 100%;
+
+            right: 0;
+
+            background: var(--card-bg);
+
+            border: 1px solid var(--border);
+
+            border-radius: 8px;
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter: blur(10px);
+
+            min-width: 190px;
+
+            z-index: 1000;
+
+            margin-top: 6px;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .dropdown-item {
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: none;
+
+            background: none;
+
+            color: var(--text);
+
+            text-align: left;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 0.92rem;
+
+            transition: background 0.2s;
+
+        }
+
+
+
+        .dropdown-item:hover {
+
+            background: rgba(212, 175, 55, 0.10);
+
+        }
+
+
+
+        .dropdown-item i {
+
+            width: 16px;
+
+            text-align: center;
+
         }
 
     </style>
+
 </head>
+
 <body>
+
     <div class="container">
+
         <!-- Header -->
+
         <div class="header">
+
             <div class="header-top">
+
                 <h1><i class="fas fa-cricket"></i> GTM Cricket Team</h1>
+
                 <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+
                     <i class="fas fa-bars"></i>
+
                 </button>
+
                 <div class="header-actions" id="headerActions">
+
                     <span class="role-pill hidden" id="rolePill"></span>
+
                     <button class="btn btn-primary" id="loginBtn">
+
                         <i class="fas fa-right-to-bracket"></i> Login
+
                     </button>
+
+                    <div class="profile-dropdown hidden" id="profileDropdown">
+
+                        <button class="btn btn-primary" id="profileBtn" type="button">
+
+                            <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down"></i>
+
+                        </button>
+
+                        <div class="dropdown-menu hidden" id="profileMenu">
+
+                            <button class="dropdown-item" id="profileLogoutItem" type="button">
+
+                                <i class="fas fa-right-from-bracket"></i> Logout
+
+                            </button>
+
+                            <button class="dropdown-item" id="profileChangePasswordItem" type="button">
+
+                                <i class="fas fa-key"></i> Change Password
+
+                            </button>
+
+                            <button class="dropdown-item" id="profileResetDataItem" type="button">
+
+                                <i class="fas fa-trash-alt"></i> Reset Data
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
                     <button class="btn btn-danger hidden" id="logoutBtn">
+
                         <i class="fas fa-right-from-bracket"></i> Logout
+
                     </button>
+
                     <button class="btn btn-primary hidden" id="changePasswordBtn" data-admin-only="true">
+
                         <i class="fas fa-key"></i> Change Password
+
                     </button>
+
                     <button class="btn btn-danger hidden" id="resetDataBtn" data-admin-only="true">
+
                         <i class="fas fa-trash-alt"></i> Reset Data
+
                     </button>
+
                     <button class="btn btn-primary" id="themeToggle">
+
                         <i class="fas fa-moon"></i> Dark Mode
+
                     </button>
+
                 </div>
+
             </div>
+
             <div class="current-month">
+
                 <i class="fas fa-calendar-alt"></i>
+
                 <span id="currentMonth">January 2024</span>
+
             </div>
+
             <div class="month-nav">
+
                 <button class="month-btn" id="prevMonth">
+
                     <i class="fas fa-chevron-left"></i>
+
                 </button>
+
                 <span style="font-size: 0.9rem; opacity: 0.8;">Navigate Months</span>
+
                 <button class="month-btn" id="nextMonth">
+
                     <i class="fas fa-chevron-right"></i>
+
                 </button>
+
             </div>
+
         </div>
+
+
 
         <div class="top-tabs" id="topTabs">
+
             <button class="top-tab active" id="topTabDashboard">Dashboard</button>
+
             <button class="top-tab" id="topTabManagement" data-admin-only="true">Management</button>
+
             <button class="top-tab hidden" id="topTabPlayerPayments" data-player-only="true">My Payments</button>
+
         </div>
+
+
 
         <!-- Dashboard Cards -->
+
         <div id="dashboardPanel">
+
         <div class="dashboard-cards">
+
             <div class="dashboard-card clickable" id="cardCollected">
+
                 <div class="card-header">
+
                     <i class="fas fa-hand-holding-dollar"></i>
+
                     <h3>Total Collected</h3>
+
                 </div>
+
                 <div class="card-amount total-amount" id="monthCollected">₹0</div>
+
                 <div class="card-note">Total payments received from all players</div>
+
             </div>
+
+
 
             <div class="dashboard-card clickable" id="cardExpenses">
+
                 <div class="card-header">
+
                     <i class="fas fa-credit-card"></i>
+
                     <h3>Expenses (This Month)</h3>
+
                 </div>
+
                 <div class="card-amount total-expenses" id="totalExpenses">₹0</div>
+
                 <div class="card-note">Food, equipment & other costs</div>
+
             </div>
+
+
 
             <div class="dashboard-card" id="cardRemaining">
+
                 <div class="card-header">
+
                     <i class="fas fa-wallet"></i>
+
                     <h3>Remaining Balance (This Month)</h3>
+
                 </div>
+
                 <div class="card-amount total-amount" id="totalAmount">₹0</div>
+
                 <div class="card-note">Opening + Collected - Expenses</div>
+
             </div>
+
+
 
             <div class="dashboard-card hidden" id="cardPreviousBalance" data-admin-only="true">
+
                 <div class="card-header">
+
                     <i class="fas fa-exchange-alt"></i>
+
                     <h3>Previous Month Balance</h3>
+
                 </div>
+
                 <div class="card-amount previous-balance" id="previousBalance">₹0</div>
+
                 <div class="card-note">Carry forward from last month</div>
+
             </div>
-        </div>
 
         </div>
+
+
+
+        </div>
+
+
 
         <div class="hidden" id="managementPanel" data-admin-only="true">
 
+
+
         <!-- Tabs -->
+
         <div class="tabs hidden" id="mainTabs" data-admin-only="true">
+
             <button class="tab active" data-tab="players" id="tabPlayers">Players & Payments</button>
+
             <button class="tab" data-tab="expenses" id="tabExpenses">Expenses</button>
+
             <button class="tab" data-tab="reports" id="tabReports">Monthly Reports</button>
+
         </div>
+
+
 
         <!-- Players Tab -->
-        <div class="tab-content active hidden" id="players" data-admin-only="true">
+
+        <div class="tab-content hidden" id="players" data-admin-only="true">
+
             <div class="players-section">
+
                 <div class="section-header">
+
                     <h2 id="playersSectionTitle"><i class="fas fa-users"></i> Team Players</h2>
+
                     <div class="search-box" data-admin-only="true">
+
                         <input type="text" id="playerSearch" placeholder="Search players by name...">
+
                         <i class="fas fa-search"></i>
+
                     </div>
+
                     <button class="add-btn" id="addPlayerBtn" data-admin-only="true">
+
                         <i class="fas fa-user-plus"></i> Add New Player
+
                     </button>
+
                 </div>
+
+
 
                 <div class="players-list" id="playersList">
+
                     <!-- Players will be loaded here -->
+
                 </div>
+
             </div>
+
         </div>
+
+
 
         <!-- Expenses Tab -->
+
         <div class="tab-content hidden" id="expenses" data-admin-only="true">
+
             <div class="players-section">
+
                 <div class="section-header">
+
                     <h2><i class="fas fa-receipt"></i> Team Expenses</h2>
+
                     <button class="add-btn" id="addExpenseBtn" data-admin-only="true">
+
                         <i class="fas fa-plus"></i> Add Expense
+
                     </button>
+
                 </div>
+
+
 
                 <div class="expenses-list" id="expensesList">
+
                     <!-- Expenses will be loaded here -->
+
                 </div>
+
             </div>
+
         </div>
+
+
 
         <!-- Reports Tab -->
+
         <div class="tab-content hidden" id="reports" data-admin-only="true">
+
             <div class="players-section">
+
                 <h2 style="margin-bottom: 20px;"><i class="fas fa-file-alt"></i> Monthly Reports</h2>
+
                 <div id="monthlyReports">
+
                     <!-- Reports will be loaded here -->
+
                 </div>
+
             </div>
-        </div>
 
         </div>
+
+
+
+        </div>
+
+
 
         <div class="hidden" id="playerPaymentsPanel" data-player-only="true">
+
             <div class="players-section">
+
                 <div class="section-header">
+
                     <h2><i class="fas fa-credit-card"></i> My Payment History</h2>
+
                     <div style="display:flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
+
                         <span class="role-pill" id="playerPaymentsPill"><i class="fas fa-user"></i> <span id="loggedInPlayerName">Player</span></span>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- Player Summary Stats -->
+
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+
                     <div class="stat-item" style="text-align:left;">
+
                         <div class="detail-label">Total Paid</div>
+
                         <div style="font-weight: 900; color: var(--success); font-size: 1.25rem;" id="ppTotalPaid">₹0</div>
+
                     </div>
+
                     <div class="stat-item" style="text-align:left;">
+
                         <div class="detail-label">This Month</div>
+
                         <div style="font-weight: 900; color: var(--accent); font-size: 1.25rem;" id="ppMonthCredited">₹0</div>
+
                     </div>
+
                     <div class="stat-item" style="text-align:left;">
+
                         <div class="detail-label">Carry Forward</div>
+
                         <div style="font-weight: 900; color: var(--warning); font-size: 1.25rem;" id="ppCarryForward">₹0</div>
+
                     </div>
+
                     <div class="stat-item" style="text-align:left;">
+
                         <div class="detail-label">Status</div>
+
                         <div style="font-weight: 900;" id="ppStatus">-</div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- Monthly Ledger Table -->
+
                 <div style="margin-top: 18px; overflow:auto;">
+
                     <table class="simple-table">
+
                         <thead>
+
                             <tr>
+
                                 <th style="min-width: 140px;">Month</th>
+
                                 <th>Credited</th>
+
                                 <th>Due</th>
+
                                 <th>Status</th>
+
                             </tr>
+
                         </thead>
+
                         <tbody id="ppLedgerBody"></tbody>
+
                     </table>
+
                 </div>
+
+
 
                 <!-- Payment History Table -->
+
                 <div style="margin-top: 18px; overflow:auto;">
+
                     <h3 style="margin-bottom: 10px;"><i class="fas fa-history"></i> Payment Records</h3>
+
                     <table class="simple-table">
+
                         <thead>
+
                             <tr>
+
                                 <th style="min-width: 140px;">Date</th>
+
                                 <th>Amount</th>
+
                                 <th>Note</th>
+
                             </tr>
+
                         </thead>
+
                         <tbody id="ppReceiptsBody"></tbody>
+
                     </table>
+
                 </div>
+
             </div>
+
         </div>
+
+
 
         <!-- Footer -->
+
         <div class="footer">
+
             <p><strong>GTM Cricket Team Payment System</strong></p>
+
             <p style="margin-top: 5px; font-size: 0.8rem;">
+
                 Each player must pay ₹150 monthly | Extra payments are carried forward to next months
+
             </p>
+
         </div>
+
     </div>
+
+
 
     <!-- Add Player Modal -->
+
     <div class="modal" id="playerModal" data-admin-only="true">
+
         <div class="modal-content">
+
             <div class="modal-header">
+
                 <h2><i class="fas fa-user-plus"></i> Add New Player</h2>
+
                 <button class="close-modal" id="closePlayerModal">&times;</button>
+
             </div>
+
             <div class="modal-body">
+
                 <form id="addPlayerForm">
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="playerName">Player Name *</label>
+
                             <input type="text" id="playerName" required 
+
                                    placeholder="Enter full name">
+
                         </div>
+
                         <div class="form-group">
+
                             <label for="playerPhone">Phone Number *</label>
+
                             <input type="tel" id="playerPhone" required 
+
                                    placeholder="Enter 10-digit number">
+
                         </div>
+
                     </div>
+
                     <div class="form-actions">
+
                         <button type="submit" class="btn btn-success">
+
                             <i class="fas fa-save"></i> Save Player
+
                         </button>
+
                         <button type="button" class="btn btn-danger" id="cancelPlayerBtn">
+
                             Cancel
+
                         </button>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <!-- Player Details Modal -->
+
     <div class="modal" id="playerDetailsModal">
+
         <div class="modal-content">
+
             <div class="modal-header">
+
                 <h2 id="playerModalTitle"><i class="fas fa-user"></i> Player Details</h2>
+
                 <button class="close-modal" id="closeDetailsModal">&times;</button>
+
             </div>
+
             <div class="modal-body">
+
                 <div class="player-summary" style="margin-bottom: 25px; padding: 20px; background: var(--light-bg); border-radius: 10px;">
+
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+
                         <div style="flex: 1;">
+
                             <h3 id="playerNameDisplay"></h3>
+
                             <p id="playerPhoneDisplay" style="color: var(--text-light); margin-top: 5px;"></p>
+
                         </div>
+
                         <div style="flex: 2;">
+
                             <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px;">Paid Months:</div>
+
                             <div id="playerPaidMonths" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 8px; max-height: 140px; overflow-y: auto; padding-right: 4px;">
+
                                 <!-- Paid months will be loaded here -->
+
                             </div>
+
                         </div>
+
                     </div>
+
                     <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px;">
+
                         <div>
+
                             <div style="font-size: 0.85rem; color: var(--text-light);">Total Paid</div>
+
                             <div style="font-size: 1.5rem; font-weight: bold; color: var(--success);" id="totalPaidDisplay">₹0</div>
+
                         </div>
+
                         <div>
+
                             <div style="font-size: 0.85rem; color: var(--text-light);">This Month</div>
+
                             <div style="font-size: 1.5rem; font-weight: bold; color: var(--warning);" id="monthPaidDisplay">₹0</div>
+
                         </div>
+
                         <div>
+
                             <div style="font-size: 0.85rem; color: var(--text-light);">Carry Forward</div>
+
                             <div style="font-size: 1.5rem; font-weight: bold; color: var(--warning);" id="carryForwardDisplay">₹0</div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <div class="player-tabs" style="margin-bottom: 20px;">
+
                     <button class="player-tab active" data-tab="entry">Player Entry</button>
+
                     <button class="player-tab" data-tab="history">History</button>
+
                 </div>
+
+
 
                 <div class="player-tab-content active" id="playerEntryTab">
+
                     <div class="add-entry-form" data-admin-only="true">
+
                         <h3 style="margin-bottom: 15px;"><i class="fas fa-plus-circle"></i> Add New Payment</h3>
+
                         <form id="addEntryForm">
+
                             <input type="hidden" id="entryPlayerId">
+
                             <div class="form-row">
+
                                 <div class="form-group">
+
                                     <label for="entryAmount">Amount (₹) *</label>
+
                                     <input type="number" id="entryAmount" required 
+
                                            placeholder="Enter amount" min="1" 
+
                                            style="background: rgba(255, 255, 255, 0.15); color: #ffffff; border-color: rgba(212, 175, 55, 0.5);">
+
                                 </div>
+
                                 <div class="form-group">
+
                                     <label for="entryDate">Date *</label>
+
                                     <input type="date" id="entryDate" required>
+
                                 </div>
+
                                 <div class="form-group">
+
                                     <label for="entryNote">Notes (Optional)</label>
+
                                     <input type="text" id="entryNote" 
+
                                            placeholder="Enter description">
+
                                 </div>
+
                             </div>
+
                             <div class="form-actions">
+
                                 <button type="submit" class="btn btn-success">
+
                                     <i class="fas fa-check"></i> Add Payment
+
                                 </button>
+
                             </div>
+
                         </form>
+
                     </div>
+
                 </div>
+
+
 
                 <div class="player-tab-content" id="playerHistoryTab">
+
                     <div class="entries-list">
+
                         <h3 style="margin-bottom: 15px;"><i class="fas fa-history"></i> Payment History</h3>
+
                         <div id="playerEntriesList">
+
                             <!-- Entries will be loaded here -->
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <!-- Add Expense Modal -->
+
     <div class="modal" id="expenseModal" data-admin-only="true">
+
         <div class="modal-content">
+
             <div class="modal-header">
+
                 <h2><i class="fas fa-receipt"></i> Add New Expense</h2>
+
                 <button class="close-modal" id="closeExpenseModal">&times;</button>
+
             </div>
+
             <div class="modal-body">
+
                 <form id="addExpenseForm">
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="expenseCategory">Category *</label>
+
                             <select id="expenseCategory" required>
+
                                 <option value="">Select category</option>
+
                                 <option value="food">Food (Sunday)</option>
+
                                 <option value="equipment">Equipment (Bat/Ball)</option>
+
                                 <option value="transport">Transport</option>
+
                                 <option value="other">Other</option>
+
                             </select>
+
                         </div>
+
                     </div>
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="expenseAmount">Amount (₹) *</label>
+
                             <input type="number" id="expenseAmount" required 
+
                                    placeholder="Enter amount" min="1">
+
                         </div>
+
                     </div>
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="expenseDate">Date *</label>
+
                             <input type="date" id="expenseDate" required>
+
                         </div>
+
                     </div>
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="expenseDescription">Description *</label>
+
                             <input type="text" id="expenseDescription" required 
+
                                    placeholder="Enter expense details">
+
                         </div>
+
                     </div>
+
                     <div class="form-actions">
+
                         <button type="submit" class="btn btn-success">
+
                             <i class="fas fa-save"></i> Save Expense
+
                         </button>
+
                         <button type="button" class="btn btn-danger" id="cancelExpenseBtn">
+
                             Cancel
+
                         </button>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <div class="modal" id="authModal">
+
         <div class="modal-content" style="max-width: 520px;">
+
             <div class="modal-header">
+
                 <h2><i class="fas fa-lock"></i> Login</h2>
+
                 <button class="close-modal" id="closeAuthModal">&times;</button>
+
             </div>
+
             <div class="modal-body">
+
                 <form id="authForm">
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="authRole">Role *</label>
+
                             <select id="authRole" required>
+
                                 <option value="admin">Admin</option>
+
                                 <option value="player">Player</option>
+
                             </select>
+
                         </div>
+
                     </div>
+
+
+
+                    <div class="form-row" id="authAdminEmailGroup">
+
+                        <div class="form-group">
+
+                            <label for="authAdminEmail">Admin Email *</label>
+
+                            <input type="email" id="authAdminEmail" placeholder="Enter admin email">
+
+                        </div>
+
+                    </div>
+
+
 
                     <div class="form-row hidden" id="authPlayerSelectGroup">
+
                         <div class="form-group">
+
                             <label for="authPlayerSelect">Select Player *</label>
+
                             <select id="authPlayerSelect">
+
                                 <option value="">Select player...</option>
+
                             </select>
+
                         </div>
+
                     </div>
+
+
 
                     <div class="form-row hidden" id="authPhoneGroup">
+
                         <div class="form-group">
+
                             <label for="authPhone">Phone Number *</label>
+
                             <input type="tel" id="authPhone" placeholder="Enter 10-digit number">
+
                         </div>
+
                     </div>
+
+
 
                     <div class="form-row" id="authPasswordGroup">
+
                         <div class="form-group">
+
                             <label for="authPassword">Admin Password *</label>
+
                             <input type="password" id="authPassword" placeholder="Enter admin password">
+
                         </div>
+
                     </div>
 
+
+
                     <div class="form-actions">
+
                         <button type="submit" class="btn btn-success">
+
                             <i class="fas fa-right-to-bracket"></i> Login
+
                         </button>
+
                         <button type="button" class="btn btn-danger" id="cancelAuthBtn">Cancel</button>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <div class="modal" id="changePasswordModal">
+
         <div class="modal-content" style="max-width: 520px;">
+
             <div class="modal-header">
+
                 <h2><i class="fas fa-key"></i> Change Password</h2>
+
                 <button class="close-modal" id="closeChangePasswordModal">&times;</button>
+
             </div>
+
             <div class="modal-body">
+
                 <form id="changePasswordForm">
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="currentAdminPassword">Current Password *</label>
+
                             <input type="password" id="currentAdminPassword" required placeholder="Enter current password">
+
                         </div>
+
                     </div>
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="newAdminPassword">New Password *</label>
+
                             <input type="password" id="newAdminPassword" required placeholder="Enter new password">
+
                         </div>
+
                     </div>
+
                     <div class="form-row">
+
                         <div class="form-group">
+
                             <label for="confirmAdminPassword">Confirm New Password *</label>
+
                             <input type="password" id="confirmAdminPassword" required placeholder="Confirm new password">
+
                         </div>
+
                     </div>
+
                     <div class="form-actions">
+
                         <button type="submit" class="btn btn-success">
+
                             <i class="fas fa-save"></i> Save
+
                         </button>
+
                         <button type="button" class="btn btn-danger" id="cancelChangePasswordBtn">Cancel</button>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <div class="players-section hidden" id="playerView">
+
         <div class="section-header">
+
             <h2><i class="fas fa-id-card"></i> Player Dashboard</h2>
+
             <div style="display:flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
+
                 <span class="role-pill" id="playerViewPill"><i class="fas fa-user"></i> Player</span>
+
             </div>
+
         </div>
+
+
 
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+
             <div class="stat-item" style="text-align:left;">
+
                 <div class="detail-label">Name</div>
+
                 <div style="font-weight: 900;" id="pvName">-</div>
+
             </div>
+
             <div class="stat-item" style="text-align:left;">
+
                 <div class="detail-label">Phone</div>
+
                 <div style="font-weight: 900;" id="pvPhone">-</div>
+
             </div>
+
             <div class="stat-item" style="text-align:left;">
+
                 <div class="detail-label">Total Paid</div>
+
                 <div style="font-weight: 900; color: var(--success); font-size: 1.25rem;" id="pvTotalPaid">₹0</div>
+
             </div>
+
             <div class="stat-item" style="text-align:left;">
+
                 <div class="detail-label">Credited (This Month)</div>
+
                 <div style="font-weight: 900; color: var(--accent); font-size: 1.25rem;" id="pvMonthCredited">₹0</div>
+
             </div>
+
             <div class="stat-item" style="text-align:left;">
+
                 <div class="detail-label">Carry Forward</div>
+
                 <div style="font-weight: 900; color: var(--warning); font-size: 1.25rem;" id="pvCarryForward">₹0</div>
+
             </div>
+
             <div class="stat-item" style="text-align:left;">
+
                 <div class="detail-label">Status</div>
+
                 <div style="font-weight: 900;" id="pvStatus">-</div>
+
             </div>
+
         </div>
 
+
+
         <div style="margin-top: 18px; overflow:auto;">
+
             <table class="simple-table">
+
                 <thead>
+
                     <tr>
+
                         <th style="min-width: 140px;">Month</th>
+
                         <th>Credited</th>
+
                         <th>Due</th>
+
                         <th>Status</th>
+
                     </tr>
+
                 </thead>
+
                 <tbody id="pvLedgerBody"></tbody>
+
             </table>
+
         </div>
 
+
+
         <div style="margin-top: 18px; overflow:auto;">
+
             <table class="simple-table">
+
                 <thead>
+
                     <tr>
+
                         <th style="min-width: 140px;">Date</th>
+
                         <th>Amount</th>
+
                         <th>Note</th>
+
                     </tr>
+
                 </thead>
+
                 <tbody id="pvReceiptsBody"></tbody>
+
             </table>
+
         </div>
+
     </div>
+
+
 
     <div class="modal" id="monthDetailsModal">
+
         <div class="modal-content" style="max-width: 900px;">
+
             <div class="modal-header">
+
                 <h2 id="monthDetailsTitle"><i class="fas fa-list"></i> Details</h2>
+
                 <button class="close-modal" id="closeMonthDetailsModal">&times;</button>
+
             </div>
+
             <div class="modal-body">
+
                 <div style="overflow:auto;">
+
                     <table class="simple-table">
+
                         <thead id="monthDetailsHead"></thead>
+
                         <tbody id="monthDetailsBody"></tbody>
+
                     </table>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
+
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+
+
     <script>
-        let players = JSON.parse(localStorage.getItem('gtmPlayers')) || [];
-        let expenses = JSON.parse(localStorage.getItem('gtmExpenses')) || [];
-        let receipts = JSON.parse(localStorage.getItem('gtmReceipts')) || [];
-        let allocations = JSON.parse(localStorage.getItem('gtmAllocations')) || [];
+
+        const firebaseConfig = {
+
+            apiKey: "AIzaSyCvRfWBV65enNl_SAV3Dv5MludARNnat5E",
+
+            authDomain: "gtm-cricket-team.firebaseapp.com",
+
+            projectId: "gtm-cricket-team",
+
+            storageBucket: "gtm-cricket-team.firebasestorage.app",
+
+            messagingSenderId: "315608726741",
+
+            appId: "1:315608726741:web:ec45e6fc46e0582ac2f65c",
+
+            measurementId: "G-PM3103H42J"
+
+        };
+
+
+
+        const FIREBASE_ADMIN_UID = '06bGpq65MeQ5raJardJmfkRmdG32';
+
+
+
+        let db = null;
+
+        let auth = null;
+
+        let stateRef = null;
+
+        let unsubState = null;
+
+        let hasInitialState = false;
+
+        let didOfferMigration = false;
+
+
+
+        let players = [];
+
+        let expenses = [];
+
+        let receipts = [];
+
+        let allocations = [];
+
+
 
         let selectedPlayerId = null;
+
         let currentViewDate = new Date();
+
         currentViewDate = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth(), 1);
+
+
 
         let currentSession = null;
 
+
+
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+
             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+
+
         const themeToggle = document.getElementById('themeToggle');
+
         const loginBtn = document.getElementById('loginBtn');
+
         const logoutBtn = document.getElementById('logoutBtn');
+
         const rolePill = document.getElementById('rolePill');
+
         const changePasswordBtn = document.getElementById('changePasswordBtn');
 
-        const playerModal = document.getElementById('playerModal');
-        const expenseModal = document.getElementById('expenseModal');
-        const playerDetailsModal = document.getElementById('playerDetailsModal');
-        const authModal = document.getElementById('authModal');
-        const changePasswordModal = document.getElementById('changePasswordModal');
+        const resetDataBtn = document.getElementById('resetDataBtn');
+
+        const profileDropdown = document.getElementById('profileDropdown');
+
+
 
         function isAdmin() {
+
             return !!currentSession && currentSession.role === 'admin';
+
         }
+
+
 
         function isPlayer() {
+
             return !!currentSession && currentSession.role === 'player';
+
         }
+
+
 
         function requireAdminOrAlert() {
+
             if (isAdmin()) return true;
+
             alert('Only admin can perform this action.');
+
             return false;
+
         }
+
+
 
         function pad2(n) {
+
             return String(n).padStart(2, '0');
+
         }
+
+
 
         function monthKeyFromDate(dateString) {
+
             const d = new Date(dateString);
+
             return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`;
+
         }
+
+
 
         function nextMonthKey(monthKey) {
+
             const parts = monthKey.split('-');
+
             const y = parseInt(parts[0], 10);
+
             const m = parseInt(parts[1], 10);
+
             const dt = new Date(y, m - 1, 1);
+
             dt.setMonth(dt.getMonth() + 1);
+
             return `${dt.getFullYear()}-${pad2(dt.getMonth() + 1)}`;
+
         }
+
+
 
         function compareMonthKeys(a, b) {
+
             if (a === b) return 0;
+
             return a < b ? -1 : 1;
+
         }
+
+
 
         function getCurrentMonthKey() {
+
             return `${currentViewDate.getFullYear()}-${pad2(currentViewDate.getMonth() + 1)}`;
+
         }
+
+
 
         function updateMonthUI() {
+
             const el = document.getElementById('currentMonth');
+
             if (!el) return;
+
             const year = currentViewDate.getFullYear().toString().slice(-2);
+
             el.textContent = `${monthNames[currentViewDate.getMonth()]} ${year}`;
+
         }
 
+
+
         function saveData() {
-            localStorage.setItem('gtmPlayers', JSON.stringify(players));
-            localStorage.setItem('gtmExpenses', JSON.stringify(expenses));
+
+            if (!db || !stateRef) return;
+
+            return stateRef.set({
+
+                players: players,
+
+                expenses: expenses,
+
+                receipts: receipts,
+
+                allocations: allocations,
+
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+
+            }, { merge: true }).catch((err) => {
+
+                console.error('Failed to save data to cloud:', err);
+
+            });
+
+        }
+
+
+
+        function getLocalBackupData() {
+
+            return {
+
+                players: JSON.parse(localStorage.getItem('gtmPlayers')) || [],
+
+                expenses: JSON.parse(localStorage.getItem('gtmExpenses')) || [],
+
+                receipts: JSON.parse(localStorage.getItem('gtmReceipts')) || [],
+
+                allocations: JSON.parse(localStorage.getItem('gtmAllocations')) || []
+
+            };
+
+        }
+
+
+
+        function isFirebaseAdminSignedIn() {
+
+            return !!auth && !!auth.currentUser && auth.currentUser.uid === FIREBASE_ADMIN_UID;
+
+        }
+
+
+
+        function initFirebase() {
+
+            if (!window.firebase) {
+
+                alert('Firebase SDK failed to load.');
+
+                return;
+
+            }
+
+
+
+            if (!firebase.apps || firebase.apps.length === 0) {
+
+                firebase.initializeApp(firebaseConfig);
+
+            }
+
+
+
+            db = firebase.firestore();
+
+            auth = firebase.auth();
+
+            stateRef = db.collection('gtm').doc('state');
+
+        }
+
+
+
+        function applyStateAndRefreshUI() {
+
+            loadDashboard();
+
+            if (isAdmin()) {
+
+                loadPlayers();
+
+                loadExpenses();
+
+                loadReports();
+
+            }
+
+
+
+            if (isPlayerMode() && currentSession && currentSession.role === 'player') {
+
+                renderPlayerMode(currentSession.playerId);
+
+                const tab = getParam('tab');
+
+                if (tab === 'payments') showTopPanel('playerPayments');
+
+            }
+
+
+
+            populateAuthPlayers();
+
+        }
+
+
+
+        function subscribeToState() {
+
+            if (!stateRef) return;
+
+            if (unsubState) unsubState();
+
+            unsubState = stateRef.onSnapshot((doc) => {
+
+                const data = doc && doc.exists ? (doc.data() || {}) : {};
+
+                players = Array.isArray(data.players) ? data.players : [];
+
+                expenses = Array.isArray(data.expenses) ? data.expenses : [];
+
+                receipts = Array.isArray(data.receipts) ? data.receipts : [];
+
+                allocations = Array.isArray(data.allocations) ? data.allocations : [];
+
+
+
+                if ((!doc || !doc.exists) && !didOfferMigration && isFirebaseAdminSignedIn()) {
+
+                    didOfferMigration = true;
+
+                    const backup = getLocalBackupData();
+
+                    const hasBackup = (backup.players && backup.players.length)
+
+                        || (backup.expenses && backup.expenses.length)
+
+                        || (backup.receipts && backup.receipts.length)
+
+                        || (backup.allocations && backup.allocations.length);
+
+                    if (hasBackup && confirm('Cloud data is empty. Upload your current local browser data to cloud?')) {
+
+                        players = backup.players || [];
+
+                        expenses = backup.expenses || [];
+
+                        receipts = backup.receipts || [];
+
+                        allocations = backup.allocations || [];
+
+                        saveData();
+
+                    }
+
+                }
+
+
+
+                if (!hasInitialState) {
+
+                    hasInitialState = true;
+
+                }
+
+
+
+                applyStateAndRefreshUI();
+
+            });
+
+        }
+
+
+
+        function allocateReceipt(receipt) {
+
+            let remaining = receipt.amount;
+
+            let monthKey = monthKeyFromDate(receipt.date);
+
+            const applied = [];
+
+
+
+            while (remaining > 0) {
+
+                const already = allocations
+
+                    .filter(a => a.playerId === receipt.playerId && a.monthKey === monthKey)
+
+                    .reduce((sum, a) => sum + a.amount, 0);
+
+
+
+                const needed = Math.max(0, 150 - already);
+
+                if (needed === 0) {
+
+                    monthKey = nextMonthKey(monthKey);
+
+                    continue;
+
+                }
+
+
+
+                const use = Math.min(needed, remaining);
+
+                allocations.push({
+
+                    id: Date.now() + Math.floor(Math.random() * 1000),
+
+                    receiptId: receipt.id,
+
+                    playerId: receipt.playerId,
+
+                    monthKey: monthKey,
+
+                    amount: use
+
+                });
+
+
+
+                const ym = monthKey.split('-');
+
+                const label = `${monthNames[parseInt(ym[1], 10) - 1]} ${ym[0]}: ₹${use}`;
+
+                applied.push({ monthKey, amount: use, label });
+
+
+
+                remaining -= use;
+
+                if (remaining > 0) monthKey = nextMonthKey(monthKey);
+
+            }
+
+
+
+            return applied;
+
+        }
+
+
+
+        function migrateLegacyDataIfNeeded() {
+
+            const hasNew = !!localStorage.getItem('gtmReceipts');
+
+            const legacyPayments = JSON.parse(localStorage.getItem('gtmPayments')) || [];
+
+            if (hasNew || legacyPayments.length === 0) return;
+
+
+
+            receipts = [];
+
+            allocations = [];
+
+
+
+            legacyPayments
+
+                .slice()
+
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+
+                .forEach(p => {
+
+                    const r = {
+
+                        id: p.id || (Date.now() + Math.floor(Math.random() * 1000)),
+
+                        playerId: p.playerId,
+
+                        amount: p.amount,
+
+                        date: p.date,
+
+                        note: p.note || ''
+
+                    };
+
+                    receipts.push(r);
+
+
+
+                    let remaining = r.amount;
+
+                    let mk = p.month || monthKeyFromDate(r.date);
+
+
+
+                    while (remaining > 0) {
+
+                        const already = allocations
+
+                            .filter(a => a.playerId === r.playerId && a.monthKey === mk)
+
+                            .reduce((sum, a) => sum + a.amount, 0);
+
+                        const needed = Math.max(0, 150 - already);
+
+                        if (needed === 0) {
+
+                            mk = nextMonthKey(mk);
+
+                            continue;
+
+                        }
+
+                        const use = Math.min(needed, remaining);
+
+                        allocations.push({
+
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+
+                            receiptId: r.id,
+
+                            playerId: r.playerId,
+
+                            monthKey: mk,
+
+                            amount: use
+
+                        });
+
+                        remaining -= use;
+
+                        if (remaining > 0) mk = nextMonthKey(mk);
+
+                    }
+
+                });
+
+
+
             localStorage.setItem('gtmReceipts', JSON.stringify(receipts));
+
+
+
             localStorage.setItem('gtmAllocations', JSON.stringify(allocations));
         }
 
-        function allocateReceipt(receipt) {
-            let remaining = receipt.amount;
-            let monthKey = monthKeyFromDate(receipt.date);
-            const applied = [];
 
-            while (remaining > 0) {
-                const already = allocations
-                    .filter(a => a.playerId === receipt.playerId && a.monthKey === monthKey)
-                    .reduce((sum, a) => sum + a.amount, 0);
-
-                const needed = Math.max(0, 150 - already);
-                if (needed === 0) {
-                    monthKey = nextMonthKey(monthKey);
-                    continue;
-                }
-
-                const use = Math.min(needed, remaining);
-                allocations.push({
-                    id: Date.now() + Math.floor(Math.random() * 1000),
-                    receiptId: receipt.id,
-                    playerId: receipt.playerId,
-                    monthKey: monthKey,
-                    amount: use
-                });
-
-                const ym = monthKey.split('-');
-                const label = `${monthNames[parseInt(ym[1], 10) - 1]} ${ym[0]}: ₹${use}`;
-                applied.push({ monthKey, amount: use, label });
-
-                remaining -= use;
-                if (remaining > 0) monthKey = nextMonthKey(monthKey);
-            }
-
-            return applied;
-        }
-
-        function migrateLegacyDataIfNeeded() {
-            const hasNew = !!localStorage.getItem('gtmReceipts');
-            const legacyPayments = JSON.parse(localStorage.getItem('gtmPayments')) || [];
-            if (hasNew || legacyPayments.length === 0) return;
-
-            receipts = [];
-            allocations = [];
-
-            legacyPayments
-                .slice()
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .forEach(p => {
-                    const r = {
-                        id: p.id || (Date.now() + Math.floor(Math.random() * 1000)),
-                        playerId: p.playerId,
-                        amount: p.amount,
-                        date: p.date,
-                        note: p.note || ''
-                    };
-                    receipts.push(r);
-
-                    let remaining = r.amount;
-                    let mk = p.month || monthKeyFromDate(r.date);
-
-                    while (remaining > 0) {
-                        const already = allocations
-                            .filter(a => a.playerId === r.playerId && a.monthKey === mk)
-                            .reduce((sum, a) => sum + a.amount, 0);
-                        const needed = Math.max(0, 150 - already);
-                        if (needed === 0) {
-                            mk = nextMonthKey(mk);
-                            continue;
-                        }
-                        const use = Math.min(needed, remaining);
-                        allocations.push({
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            receiptId: r.id,
-                            playerId: r.playerId,
-                            monthKey: mk,
-                            amount: use
-                        });
-                        remaining -= use;
-                        if (remaining > 0) mk = nextMonthKey(mk);
-                    }
-                });
-
-            saveData();
-        }
 
         function getBalanceBeforeMonth(monthKey) {
+
             const totalReceiptsBefore = receipts
+
                 .filter(r => compareMonthKeys(monthKeyFromDate(r.date), monthKey) === -1)
+
                 .reduce((sum, r) => sum + r.amount, 0);
+
             const totalExpensesBefore = expenses
+
                 .filter(ex => compareMonthKeys(monthKeyFromDate(ex.date), monthKey) === -1)
+
                 .reduce((sum, ex) => sum + ex.amount, 0);
+
             return totalReceiptsBefore - totalExpensesBefore;
+
         }
+
+
 
         function applyRoleUI() {
+
             const isAdminUser = isAdmin();
+
             const isPlayerUser = isPlayer();
 
+
+
             // Show/hide admin-only elements
+
             document.querySelectorAll('[data-admin-only]').forEach(el => {
+
                 el.classList.toggle('hidden', !isAdminUser);
+
             });
+
+
 
             // Show/hide player-only elements
+
             document.querySelectorAll('[data-player-only]').forEach(el => {
+
                 el.classList.toggle('hidden', !isPlayerUser);
+
             });
 
+
+
             // Update role pill
+
             if (rolePill) {
+
                 if (isAdminUser) {
-                    rolePill.innerHTML = '<i class="fas fa-user-shield"></i> Admin';
-                    rolePill.classList.remove('hidden');
+
+                    rolePill.classList.add('hidden');
+
                 } else if (isPlayerUser) {
+
                     const p = (currentSession && currentSession.playerId)
+
                         ? players.find(x => x.id === currentSession.playerId)
+
                         : null;
+
                     const playerName = p ? p.name : 'Player';
+
                     rolePill.innerHTML = `<i class="fas fa-user"></i> ${escapeHtml(playerName)}`;
+
                     rolePill.classList.remove('hidden');
+
+
 
                     const playerNameEl = document.getElementById('loggedInPlayerName');
+
                     if (playerNameEl) playerNameEl.textContent = playerName;
+
                 } else {
+
                     rolePill.classList.add('hidden');
+
                 }
+
             }
+
+
 
             // Update login/logout buttons
+
             if (loginBtn) loginBtn.classList.toggle('hidden', isAdminUser || isPlayerUser);
-            if (logoutBtn) logoutBtn.classList.toggle('hidden', !isAdminUser && !isPlayerUser);
+
+            if (logoutBtn) logoutBtn.classList.toggle('hidden', !isPlayerUser);
+
+            if (changePasswordBtn) changePasswordBtn.classList.add('hidden');
+
+            if (resetDataBtn) resetDataBtn.classList.add('hidden');
+
+            if (profileDropdown) profileDropdown.classList.toggle('hidden', !isAdminUser);
+
+
+
+            const profileBtn = document.getElementById('profileBtn');
+
+            if (profileBtn) {
+
+                if (isAdminUser) {
+
+                    profileBtn.innerHTML = '<i class="fas fa-user-circle"></i> Admin <i class="fas fa-chevron-down"></i>';
+
+                } else {
+
+                    profileBtn.innerHTML = '<i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down"></i>';
+
+                }
+
+            }
+
         }
+
+
 
         function closeMobileMenu() {
+
             const headerActions = document.getElementById('headerActions');
+
             const menuToggle = document.getElementById('menuToggle');
+
             if (!headerActions || !menuToggle) return;
+
             headerActions.classList.remove('open');
+
             menuToggle.setAttribute('aria-expanded', 'false');
+
         }
+
+
 
         function addNewPlayer(e) {
+
             e.preventDefault();
+
             const name = (document.getElementById('playerName').value || '').trim();
+
             const phone = (document.getElementById('playerPhone').value || '').trim();
 
+
+
             if (!name) {
+
                 alert('Player name is required.');
+
                 return;
+
             }
+
+
 
             if (!/^\d{10}$/.test(phone)) {
+
                 alert('Please enter a valid 10-digit phone number.');
+
                 return;
+
             }
+
+
 
             if (players.some(p => p.phone === phone)) {
+
                 alert('A player with this phone number already exists.');
+
                 return;
+
             }
+
+
 
             const newPlayer = {
+
                 id: Date.now(),
+
                 name: name,
+
                 phone: phone
+
             };
+
+
 
             players.push(newPlayer);
+
             saveData();
+
             loadPlayers();
+
+
 
             document.getElementById('addPlayerForm').reset();
+
             playerModal.style.display = 'none';
 
+
+
             alert('Player added successfully.');
+
         }
+
+
 
         function addNewExpense(e) {
+
             e.preventDefault();
+
             const category = document.getElementById('expenseCategory').value;
+
             const expenseAmount = parseFloat(document.getElementById('expenseAmount').value);
+
             const date = document.getElementById('expenseDate').value;
+
             const description = (document.getElementById('expenseDescription').value || '').trim();
 
+
+
             if (!category || !expenseAmount || !date || expenseAmount <= 0) {
+
                 alert('Please fill all required fields with valid values.');
+
                 return;
+
             }
+
+
 
             const newExpense = {
+
                 id: Date.now(),
+
                 category: category,
+
                 amount: expenseAmount,
+
                 date: date,
+
                 description: description
+
             };
+
+
 
             expenses.push(newExpense);
+
             saveData();
+
             loadExpenses();
+
             loadReports();
+
             loadDashboard();
+
+
 
             document.getElementById('addExpenseForm').reset();
+
             expenseModal.style.display = 'none';
+
             alert('Expense added successfully.');
+
         }
+
+
 
         function addNewEntry(e) {
+
             e.preventDefault();
+
             if (!isAdmin()) return;
+
+
 
             const playerId = parseInt(document.getElementById('entryPlayerId').value, 10);
+
             const amount = parseFloat(document.getElementById('entryAmount').value);
+
             const date = document.getElementById('entryDate').value;
+
             const note = (document.getElementById('entryNote').value || '').trim();
 
+
+
             if (!playerId || !amount || !date || amount <= 0) {
+
                 alert('Please fill all required fields with valid values.');
+
                 return;
+
             }
+
+
 
             const monthKey = monthKeyFromDate(date);
+
             const alreadyPaid = allocations
+
                 .filter(a => a.playerId === playerId && a.monthKey === monthKey)
+
                 .reduce((sum, a) => sum + a.amount, 0);
 
+
+
             if (alreadyPaid >= 150) {
+
                 const monthLabel = monthLabelFromKey(monthKey);
+
                 if (!confirm(`Player has already paid ₹${alreadyPaid} for ${monthLabel}. This payment will be allocated to future months. Continue?`)) {
+
                     return;
+
                 }
+
             }
+
+
 
             const receipt = {
+
                 id: Date.now(),
+
                 playerId: playerId,
+
                 amount: amount,
+
                 date: date,
+
                 note: note
+
             };
 
+
+
             receipts.push(receipt);
+
             const applied = allocateReceipt(receipt);
+
             
+
             let message = `Payment of ₹${amount} added successfully.\n\nAllocation:\n`;
+
             applied.forEach(a => message += `${a.label}\n`);
+
             
+
             alert(message);
+
             
+
             saveData();
+
             loadPlayers();
+
             loadReports();
+
             loadDashboard();
+
+
 
             document.getElementById('addEntryForm').reset();
+
             showPlayerDetails(playerId);
+
         }
+
+
 
         function editReceipt(receiptId) {
+
             if (!isAdmin()) return;
+
             const receipt = receipts.find(r => r.id === receiptId);
+
             if (!receipt) return;
+
+
 
             const newAmount = prompt('Edit amount (₹):', receipt.amount);
+
             if (newAmount === null) return;
+
             const amount = parseFloat(newAmount);
+
             if (isNaN(amount) || amount <= 0) {
+
                 alert('Please enter a valid amount.');
+
                 return;
+
             }
+
+
 
             const newDate = prompt('Edit date (YYYY-MM-DD):', receipt.date);
+
             if (newDate === null) return;
+
             if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate)) {
+
                 alert('Please enter a valid date in YYYY-MM-DD format.');
+
                 return;
+
             }
 
+
+
             const newNote = prompt('Edit note:', receipt.note || '');
+
             if (newNote === null) return;
 
+
+
             receipt.amount = amount;
+
             receipt.date = newDate;
+
             receipt.note = newNote.trim();
 
+
+
             // Re-allocate this receipt
+
             allocations = allocations.filter(a => a.receiptId !== receiptId);
+
             allocateReceipt(receipt);
 
+
+
             saveData();
+
             loadPlayers();
+
             loadReports();
+
             loadDashboard();
+
             showPlayerDetails(receipt.playerId);
+
         }
 
+
+
         function deleteReceipt(receiptId) {
+
             if (!isAdmin()) return;
+
             const receipt = receipts.find(r => r.id === receiptId);
+
             if (!receipt) return;
+
+
 
             if (!confirm(`Are you sure you want to delete this payment of ₹${receipt.amount}?`)) return;
 
+
+
             receipts = receipts.filter(r => r.id !== receiptId);
+
             allocations = allocations.filter(a => a.receiptId !== receiptId);
 
+
+
             saveData();
+
             loadPlayers();
+
             loadReports();
+
             loadDashboard();
+
             showPlayerDetails(receipt.playerId);
+
         }
+
+
 
         function editPlayer(playerId) {
+
             if (!isAdmin()) return;
+
             const player = players.find(p => p.id === playerId);
+
             if (!player) return;
+
+
 
             const newName = prompt('Edit player name:', player.name);
+
             if (newName === null) return;
+
             const name = newName.trim();
+
             if (!name) {
+
                 alert('Player name cannot be empty.');
+
                 return;
+
             }
+
+
 
             const newPhone = prompt('Edit phone number (10 digits):', player.phone);
+
             if (newPhone === null) return;
+
             const phone = newPhone.trim();
+
             if (!/^\d{10}$/.test(phone)) {
+
                 alert('Please enter a valid 10-digit phone number.');
+
                 return;
+
             }
+
+
 
             if (phone !== player.phone && players.some(p => p.id !== playerId && p.phone === phone)) {
+
                 alert('A player with this phone number already exists.');
+
                 return;
+
             }
+
+
 
             player.name = name;
+
             player.phone = phone;
 
+
+
             saveData();
+
             loadPlayers();
+
             showPlayerDetails(playerId);
+
         }
+
+
 
         function deletePlayer(playerId) {
+
             if (!isAdmin()) return;
+
             const player = players.find(p => p.id === playerId);
+
             if (!player) return;
 
+
+
             const hasPayments = receipts.some(r => r.playerId === playerId);
+
             if (hasPayments) {
+
                 if (!confirm(`Warning: ${player.name} has payment records. Deleting this player will also delete all their payment history. This cannot be undone. Continue?`)) {
+
                     return;
+
                 }
+
             } else {
+
                 if (!confirm(`Are you sure you want to delete player "${player.name}"?`)) {
+
                     return;
+
                 }
+
             }
 
+
+
             players = players.filter(p => p.id !== playerId);
+
             receipts = receipts.filter(r => r.playerId !== playerId);
+
             allocations = allocations.filter(a => a.playerId !== playerId);
 
+
+
             saveData();
+
             loadPlayers();
+
             loadReports();
+
             loadDashboard();
 
+
+
             const modal = document.getElementById('playerDetailsModal');
+
             if (modal) modal.style.display = 'none';
+
         }
 
+
+
         function showTopPanel(panel) {
+
             let p = panel;
+
             if (p === 'management' && !isAdmin()) p = 'dashboard';
+
             if (p === 'playerPayments' && !isPlayer()) p = 'dashboard';
 
+
+
             const dashboardPanel = document.getElementById('dashboardPanel');
+
             const managementPanel = document.getElementById('managementPanel');
+
             const playerPaymentsPanel = document.getElementById('playerPaymentsPanel');
+
             const tabDashboard = document.getElementById('topTabDashboard');
+
             const tabManagement = document.getElementById('topTabManagement');
+
             const tabPlayerPayments = document.getElementById('topTabPlayerPayments');
 
+
+
             if (tabDashboard) tabDashboard.classList.toggle('active', p === 'dashboard');
+
             if (tabManagement) tabManagement.classList.toggle('active', p === 'management');
+
             if (tabPlayerPayments) tabPlayerPayments.classList.toggle('active', p === 'playerPayments');
+
             if (dashboardPanel) dashboardPanel.classList.toggle('hidden', p !== 'dashboard');
+
             if (managementPanel) managementPanel.classList.toggle('hidden', p !== 'management');
+
             if (playerPaymentsPanel) playerPaymentsPanel.classList.toggle('hidden', p !== 'playerPayments');
-            
+
+            // Load management data when switching to management panel
+            if (p === 'management' && isAdmin()) {
+                loadPlayers();
+                loadExpenses();
+                loadReports();
+                // Show management tabs
+                const mainTabs = document.getElementById('mainTabs');
+                if (mainTabs) mainTabs.classList.remove('hidden');
+            } else {
+                // Hide management tabs when not in management panel
+                const mainTabs = document.getElementById('mainTabs');
+                if (mainTabs) mainTabs.classList.add('hidden');
+            }
+
             // Load player payments data when switching to player payments panel
             if (p === 'playerPayments' && isPlayer()) {
                 loadPlayerPayments(currentSession.playerId);
             }
         }
 
+
         function openAuthModal() {
+
             authModal.style.display = 'flex';
+
             document.getElementById('authPassword').value = '';
+
             document.getElementById('authPhone').value = '';
+
+            const emailEl = document.getElementById('authAdminEmail');
+
+            if (emailEl) emailEl.value = '';
+
             populateAuthPlayers();
+
             syncAuthFields();
+
         }
+
+
 
         function closeAuthModal() {
+
             authModal.style.display = 'none';
+
         }
+
+
 
         function syncAuthFields() {
+
             const role = document.getElementById('authRole').value;
 
+
+
+            const emailGroup = document.getElementById('authAdminEmailGroup');
+
             const phoneGroup = document.getElementById('authPhoneGroup');
+
             const passGroup = document.getElementById('authPasswordGroup');
+
             const playerSelectGroup = document.getElementById('authPlayerSelectGroup');
+
+            const email = document.getElementById('authAdminEmail');
+
             const phone = document.getElementById('authPhone');
+
             const pass = document.getElementById('authPassword');
 
-            if (!phoneGroup || !passGroup || !playerSelectGroup || !phone || !pass) return;
+
+
+            if (!emailGroup || !phoneGroup || !passGroup || !playerSelectGroup || !email || !phone || !pass) return;
+
+
 
             if (role === 'player') {
+
+                emailGroup.classList.add('hidden');
+
                 playerSelectGroup.classList.remove('hidden');
+
                 phoneGroup.classList.remove('hidden');
+
                 passGroup.classList.add('hidden');
 
+
+
+                email.required = false;
+
                 phone.required = true;
+
                 pass.required = false;
+
                 return;
+
             }
+
+
+
+            emailGroup.classList.remove('hidden');
 
             playerSelectGroup.classList.add('hidden');
+
             phoneGroup.classList.add('hidden');
+
             passGroup.classList.remove('hidden');
+
+
+
+            email.required = true;
+
             phone.required = false;
+
             pass.required = true;
+
         }
+
+
 
         function populateAuthPlayers() {
+
             const select = document.getElementById('authPlayerSelect');
+
             if (!select) return;
+
             select.innerHTML = '';
 
+
+
             if (!players.length) {
+
                 const opt = document.createElement('option');
+
                 opt.value = '';
+
                 opt.textContent = 'No players added yet';
+
                 select.appendChild(opt);
+
                 select.disabled = true;
+
                 return;
+
             }
+
+
 
             select.disabled = false;
+
             const defaultOpt = document.createElement('option');
+
             defaultOpt.value = '';
+
             defaultOpt.textContent = 'Select player...';
+
             select.appendChild(defaultOpt);
 
+
+
             players
+
                 .slice()
+
                 .sort((a, b) => a.name.localeCompare(b.name))
+
                 .forEach(p => {
+
                     const opt = document.createElement('option');
+
                     opt.value = String(p.id);
+
                     opt.textContent = `${p.name} (${p.phone})`;
+
                     select.appendChild(opt);
+
                 });
+
         }
+
+
 
         function loadDashboard() {
+
             const monthKey = getCurrentMonthKey();
+
             const collected = receipts
+
                 .filter(r => monthKeyFromDate(r.date) === monthKey)
+
                 .reduce((sum, r) => sum + r.amount, 0);
+
             const totalCollected = receipts.reduce((sum, r) => sum + r.amount, 0);
+
             const spent = expenses
+
                 .filter(ex => monthKeyFromDate(ex.date) === monthKey)
+
                 .reduce((sum, ex) => sum + ex.amount, 0);
 
+
+
             const opening = getBalanceBeforeMonth(monthKey);
+
             const remaining = opening + collected - spent;
 
+
+
             const monthCollectedEl = document.getElementById('monthCollected');
+
             const totalExpensesEl = document.getElementById('totalExpenses');
+
             const totalAmountEl = document.getElementById('totalAmount');
+
             const previousBalanceEl = document.getElementById('previousBalance');
 
+
+
             if (monthCollectedEl) monthCollectedEl.textContent = `₹${totalCollected}`;
+
             if (totalExpensesEl) totalExpensesEl.textContent = `₹${spent}`;
+
             if (totalAmountEl) totalAmountEl.textContent = `₹${remaining}`;
+
             if (previousBalanceEl) previousBalanceEl.textContent = `₹${opening}`;
+
         }
+
+
 
         function renderPlayerCard(player) {
+
             const monthKey = getCurrentMonthKey();
+
             const totalPaid = receipts.filter(r => r.playerId === player.id).reduce((sum, r) => sum + r.amount, 0);
+
             const monthPaid = allocations
+
                 .filter(a => a.playerId === player.id && a.monthKey === monthKey)
+
                 .reduce((sum, a) => sum + a.amount, 0);
 
+
+
             const el = document.createElement('div');
+
             el.className = 'player-card';
+
             
+
             let monthColor = 'var(--danger)'; // Red for unpaid
+
             if (monthPaid >= 150) {
+
                 monthColor = 'var(--success)'; // Green for fully paid
+
             } else if (monthPaid > 0) {
+
                 monthColor = 'var(--warning)'; // Orange for partially paid
+
             }
+
             
+
             el.innerHTML = `
+
                 <div style="display:flex; justify-content: space-between; align-items:center; gap:12px;">
+
                     <div>
+
                         <div style="font-weight:800; font-size:1.05rem;">${player.name}</div>
+
                         <div style="color: var(--text-light); font-size:0.85rem; margin-top:4px;">${player.phone}</div>
+
                     </div>
+
                     <div style="text-align:right;">
+
                         <div style="font-weight:900; color: ${monthColor};">₹${monthPaid}/150</div>
+
                         <div style="color: var(--text-light); font-size:0.8rem;">Total: ₹${totalPaid}</div>
+
                         <div style="display:flex; gap:6px; margin-top:8px;" data-admin-only="true">
+
                             <button class="btn btn-primary" onclick="editPlayer(${player.id})" style="padding:4px 8px; font-size:0.75rem;">
+
                                 <i class="fas fa-edit"></i> Edit
+
                             </button>
+
                             <button class="btn btn-danger" onclick="deletePlayer(${player.id})" style="padding:4px 8px; font-size:0.75rem;">
+
                                 <i class="fas fa-trash"></i> Delete
+
                             </button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             `;
+
             el.addEventListener('click', (e) => {
+
                 if (!e.target.closest('button')) {
+
                     showPlayerDetails(player.id);
+
                 }
+
             });
+
             return el;
+
         }
 
+
+
         function loadPlayers() {
+
             if (!isAdmin()) return;
+
             const list = document.getElementById('playersList');
+
             if (!list) return;
+
+
 
             list.innerHTML = '';
 
+
+
             const visiblePlayers = players.slice();
+
             const title = document.getElementById('playersSectionTitle');
+
             if (title) title.innerHTML = '<i class="fas fa-users"></i> Team Players';
 
+
+
             visiblePlayers
+
                 .slice()
+
                 .sort((a, b) => a.name.localeCompare(b.name))
+
                 .forEach(p => list.appendChild(renderPlayerCard(p)));
 
+
+
             if (!visiblePlayers.length) {
+
                 const empty = document.createElement('div');
+
                 empty.style.opacity = '0.75';
+
                 empty.textContent = 'No players found.';
+
                 list.appendChild(empty);
+
             }
+
         }
 
+
+
         function showPlayerDetails(playerId) {
+
             const player = players.find(p => p.id === playerId);
+
             if (!player) return;
 
+
+
             const modal = document.getElementById('playerDetailsModal');
+
             const nameEl = document.getElementById('playerNameDisplay');
+
             const phoneEl = document.getElementById('playerPhoneDisplay');
+
             const totalPaidEl = document.getElementById('totalPaidDisplay');
+
             const monthPaidEl = document.getElementById('monthPaidDisplay');
+
             const carryEl = document.getElementById('carryForwardDisplay');
+
             const entriesListEl = document.getElementById('playerEntriesList');
+
             const entryPlayerIdEl = document.getElementById('entryPlayerId');
+
+
 
             if (!modal || !nameEl || !phoneEl || !totalPaidEl || !monthPaidEl || !carryEl || !entriesListEl || !entryPlayerIdEl) return;
 
+
+
             nameEl.textContent = player.name;
+
             phoneEl.textContent = player.phone;
 
+
+
             const monthKey = getCurrentMonthKey();
+
             const totalPaid = receipts.filter(r => r.playerId === player.id).reduce((sum, r) => sum + r.amount, 0);
+
             const monthPaid = allocations.filter(a => a.playerId === player.id && a.monthKey === monthKey).reduce((sum, a) => sum + a.amount, 0);
+
             const carryForward = Math.max(0, totalPaid - allocations.filter(a => a.playerId === player.id).reduce((sum, a) => sum + a.amount, 0));
 
+
+
             totalPaidEl.textContent = `₹${totalPaid}`;
+
             monthPaidEl.textContent = `₹${monthPaid}`;
+
             carryEl.textContent = `₹${carryForward}`;
+
+
 
             entryPlayerIdEl.value = String(player.id);
 
+
+
             entriesListEl.innerHTML = '';
+
             const playerReceipts = receipts.filter(r => r.playerId === player.id).slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
             if (!playerReceipts.length) {
+
                 entriesListEl.innerHTML = '<div style="opacity:0.75;">No payments recorded.</div>';
+
             } else {
+
                 playerReceipts.forEach(r => {
+
                     const el = document.createElement('div');
+
                     el.className = 'player-card';
+
                     el.innerHTML = `
+
                         <div style="display:flex; justify-content: space-between; align-items:center; gap:12px;">
+
                             <div>
+
                                 <div style="font-weight:800; font-size:1.05rem;">₹${r.amount}</div>
+
                                 <div style="color: var(--text-light); font-size:0.85rem; margin-top:4px;">${formatDate(r.date)}</div>
+
                                 <div style="color: var(--text-light); font-size:0.85rem; margin-top:2px;">${escapeHtml(r.note || '')}</div>
+
                             </div>
+
                             <div style="display:flex; gap:6px;" data-admin-only="true">
+
                                 <button class="btn btn-primary" onclick="editReceipt(${r.id})" style="padding:6px 10px; font-size:0.8rem;">
+
                                     <i class="fas fa-edit"></i> Edit
+
                                 </button>
+
                                 <button class="btn btn-danger" onclick="deleteReceipt(${r.id})" style="padding:6px 10px; font-size:0.8rem;">
+
                                     <i class="fas fa-trash"></i> Delete
+
                                 </button>
+
                             </div>
+
                         </div>
+
                     `;
+
                     entriesListEl.appendChild(el);
+
                 });
+
             }
+
+
 
             // Load paid months in summary
+
             const paidMonthsEl = document.getElementById('playerPaidMonths');
+
             if (paidMonthsEl) {
+
                 loadPlayerPaidMonths(player.id, paidMonthsEl);
+
             }
+
+
 
             // Reset to Player Entry tab and show modal
+
             const playerTabs = document.querySelectorAll('.player-tab');
+
             const playerTabContents = document.querySelectorAll('.player-tab-content');
+
             
+
             playerTabs.forEach(tab => tab.classList.remove('active'));
+
             playerTabContents.forEach(content => content.classList.remove('active'));
+
             
+
             const entryTab = document.querySelector('.player-tab[data-tab="entry"]');
+
             const entryContent = document.getElementById('playerEntryTab');
+
             
+
             if (entryTab) entryTab.classList.add('active');
+
             if (entryContent) entryContent.classList.add('active');
 
+
+
             modal.style.display = 'flex';
+
         }
+
+
 
         function loadPlayerPaidMonths(playerId, container) {
+
             container.innerHTML = '';
 
+
+
             const paidByMonth = new Map();
+
             allocations
+
                 .filter(a => a.playerId === playerId)
+
                 .forEach(a => {
+
                     paidByMonth.set(a.monthKey, (paidByMonth.get(a.monthKey) || 0) + a.amount);
+
                 });
 
+
+
             const months = Array.from(paidByMonth.entries())
+
                 .map(([monthKey, paid]) => ({
+
                     monthKey,
+
                     monthLabel: monthLabelFromKey(monthKey),
+
                     paid
+
                 }))
+
                 .filter(m => m.paid > 0)
+
                 .sort((a, b) => compareMonthKeys(a.monthKey, b.monthKey));
 
+
+
             months.forEach(month => {
+
                 const monthDiv = document.createElement('div');
 
+
+
                 if (month.paid >= 150) {
+
                     // Fully paid month - green styling
+
                     monthDiv.style.cssText = 'display: flex; align-items: center; gap: 4px; padding: 2px 6px; background: rgba(34, 197, 94, 0.1); border: 1px solid var(--success); border-radius: 4px; font-size: 0.7rem;';
+
                     monthDiv.innerHTML = `
+
                         <input type="checkbox" checked style="width: 10px; height: 10px; margin: 0;" disabled>
+
                         <span style="color: var(--success); font-weight: 600;">${month.monthLabel}</span>
+
                     `;
+
                 } else {
+
                     // Partially paid month - red styling with remaining amount
+
                     monthDiv.style.cssText = 'display: flex; flex-direction: column; gap: 1px; padding: 2px 6px; background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); border-radius: 4px; font-size: 0.7rem;';
+
                     monthDiv.innerHTML = `
+
                         <div style="display: flex; align-items: center; gap: 4px;">
+
                             <input type="checkbox" style="width: 10px; height: 10px; margin: 0;" disabled>
+
                             <span style="color: var(--danger); font-weight: 600;">${month.monthLabel}</span>
+
                         </div>
+
                         <div style="color: var(--danger); font-size: 0.65rem; margin-left: 14px;">Remaining: ₹${150 - month.paid}</div>
+
                     `;
+
                 }
 
+
+
                 container.appendChild(monthDiv);
+
             });
+
         }
+
+
 
         // Format date
+
         function formatDate(dateString) {
+
             const date = new Date(dateString);
+
             return date.toLocaleDateString('en-IN', {
+
                 day: '2-digit',
+
                 month: 'short',
+
                 year: 'numeric'
+
             });
+
         }
+
+
 
         function escapeHtml(s) {
+
             return String(s || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
         }
+
+
 
         function getParam(name) {
+
             try {
+
                 const params = new URLSearchParams(window.location.search);
+
                 return params.get(name);
+
             } catch {
+
                 return null;
+
             }
+
         }
+
+
 
         function isPlayerMode() {
+
             return (getParam('mode') || '').toLowerCase() === 'player';
+
         }
+
+
 
         function monthLabelFromKey(monthKey) {
+
             const parts = monthKey.split('-');
+
             const y = parts[0].slice(-2); // Get last 2 digits of year
+
             const m = parseInt(parts[1], 10);
+
             return `${monthNames[m - 1]} ${y}`;
+
         }
+
+
 
         function statusPillHtml(credited) {
+
             if (credited >= 150) return '<span class="pill pill-success"><i class="fas fa-check"></i> Paid</span>';
+
             if (credited > 0) return '<span class="pill pill-warning"><i class="fas fa-triangle-exclamation"></i> Short</span>';
+
             return '<span class="pill pill-danger"><i class="fas fa-xmark"></i> Unpaid</span>';
+
         }
+
+
 
         function openMonthDetailsModal() {
+
             const m = document.getElementById('monthDetailsModal');
+
             if (m) m.style.display = 'flex';
+
         }
+
+
 
         function closeMonthDetailsModal() {
+
             const m = document.getElementById('monthDetailsModal');
+
             if (m) m.style.display = 'none';
+
         }
 
+
+
         function renderCollectedListModal() {
+
             const monthKey = getCurrentMonthKey();
+
             const title = document.getElementById('monthDetailsTitle');
+
             const head = document.getElementById('monthDetailsHead');
+
             const body = document.getElementById('monthDetailsBody');
+
             if (!head || !body) return;
+
+
 
             if (title) title.innerHTML = `<i class="fas fa-hand-holding-dollar"></i> Collected - ${escapeHtml(monthLabelFromKey(monthKey))}`;
 
+
+
             head.innerHTML = `
+
                 <tr>
+
                     <th>Player</th>
+
                     <th style="min-width: 120px;">Date</th>
+
                     <th>Amount</th>
+
                     <th>Note</th>
+
                 </tr>
+
             `;
 
+
+
             const list = receipts
+
                 .filter(r => monthKeyFromDate(r.date) === monthKey)
+
                 .slice()
+
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+
+
             body.innerHTML = '';
+
             if (!list.length) {
+
                 body.innerHTML = '<tr><td colspan="4" style="opacity:0.75;">No payments received in this month.</td></tr>';
+
                 openMonthDetailsModal();
+
                 return;
+
             }
 
+
+
             list.forEach(r => {
+
                 const p = players.find(x => x.id === r.playerId);
+
                 const tr = document.createElement('tr');
+
                 tr.innerHTML = `
+
                     <td>${escapeHtml(p ? `${p.name} (${p.phone})` : `Player #${r.playerId}`)}</td>
+
                     <td>${formatDate(r.date)}</td>
+
                     <td><strong>₹${r.amount}</strong></td>
+
                     <td>${escapeHtml(r.note || '')}</td>
+
                 `;
+
                 body.appendChild(tr);
+
             });
 
+
+
             openMonthDetailsModal();
+
         }
+
+
 
         function expenseCategoryLabel(v) {
+
             if (v === 'food') return 'Food (Sunday)';
+
             if (v === 'equipment') return 'Equipment (Bat/Ball)';
+
             if (v === 'transport') return 'Transport';
+
             if (v === 'other') return 'Other';
+
             return v || '';
+
         }
 
+
+
         function renderExpenseListModal() {
+
             const monthKey = getCurrentMonthKey();
+
             const title = document.getElementById('monthDetailsTitle');
+
             const head = document.getElementById('monthDetailsHead');
+
             const body = document.getElementById('monthDetailsBody');
+
             if (!head || !body) return;
+
+
 
             if (title) title.innerHTML = `<i class="fas fa-credit-card"></i> Expenses - ${escapeHtml(monthLabelFromKey(monthKey))}`;
 
+
+
             head.innerHTML = `
+
                 <tr>
+
                     <th>Category</th>
+
                     <th style="min-width: 120px;">Date</th>
+
                     <th>Amount</th>
+
                     <th>Description</th>
+
                 </tr>
+
             `;
 
+
+
             const list = expenses
+
                 .filter(ex => monthKeyFromDate(ex.date) === monthKey)
+
                 .slice()
+
                 .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+
+
             body.innerHTML = '';
+
             if (!list.length) {
+
                 body.innerHTML = '<tr><td colspan="4" style="opacity:0.75;">No expenses recorded in this month.</td></tr>';
+
                 openMonthDetailsModal();
+
                 return;
+
             }
+
+
 
             list.forEach(ex => {
+
                 const tr = document.createElement('tr');
+
                 tr.innerHTML = `
+
                     <td>${escapeHtml(expenseCategoryLabel(ex.category))}</td>
+
                     <td>${formatDate(ex.date)}</td>
+
                     <td><strong>₹${ex.amount}</strong></td>
+
                     <td>${escapeHtml(ex.description || '')}</td>
+
                 `;
+
                 body.appendChild(tr);
+
             });
+
+
 
             openMonthDetailsModal();
+
         }
+
+
 
         function loadPlayerPayments(playerId) {
+
             const player = players.find(p => p.id === playerId);
+
             if (!player) return;
 
+
+
             // Update player name in header
+
             const playerNameEl = document.getElementById('loggedInPlayerName');
+
             if (playerNameEl) playerNameEl.textContent = player.name;
 
+
+
             // Update payment stats
+
             const totalPaidEl = document.getElementById('ppTotalPaid');
+
             const monthCreditedEl = document.getElementById('ppMonthCredited');
+
             const carryEl = document.getElementById('ppCarryForward');
+
             const statusEl = document.getElementById('ppStatus');
 
+
+
             const monthKey = getCurrentMonthKey();
+
             const totalPaid = receipts.filter(r => r.playerId === player.id).reduce((sum, r) => sum + r.amount, 0);
+
             const monthPaid = allocations.filter(a => a.playerId === player.id && a.monthKey === monthKey).reduce((sum, a) => sum + a.amount, 0);
+
             const carryForward = Math.max(0, totalPaid - allocations.filter(a => a.playerId === player.id).reduce((sum, a) => sum + a.amount, 0));
 
+
+
             if (totalPaidEl) totalPaidEl.textContent = `₹${totalPaid}`;
+
             if (monthCreditedEl) monthCreditedEl.textContent = `₹${monthPaid}`;
+
             if (carryEl) carryEl.textContent = `₹${carryForward}`;
+
             
+
             // Update status
+
             if (statusEl) {
+
                 if (monthPaid >= 150) {
+
                     statusEl.innerHTML = '<span class="pill pill-success"><i class="fas fa-check"></i> Paid</span>';
+
                 } else if (monthPaid > 0) {
+
                     statusEl.innerHTML = '<span class="pill pill-warning"><i class="fas fa-triangle-exclamation"></i> Partial</span>';
+
                 } else {
+
                     statusEl.innerHTML = '<span class="pill pill-danger"><i class="fas fa-xmark"></i> Unpaid</span>';
+
                 }
+
             }
+
+
 
             // Load monthly ledger
+
             const ledgerBody = document.getElementById('ppLedgerBody');
+
             if (ledgerBody) {
+
                 ledgerBody.innerHTML = '';
+
                 
+
                 // Get months from player's first payment to current month + 2 months
+
                 const playerReceipts = receipts.filter(r => r.playerId === playerId);
+
                 const firstDate = playerReceipts.length > 0 
+
                     ? new Date(Math.min(...playerReceipts.map(r => new Date(r.date))))
+
                     : new Date();
+
                 const currentDate = new Date();
+
                 
+
                 const months = [];
+
                 let currentMonth = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
+
                 
+
                 while (currentMonth <= new Date(currentDate.getFullYear(), currentDate.getMonth() + 2, 1)) {
+
                     const monthKey = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, '0')}`;
+
                     const year = currentMonth.getFullYear().toString().slice(-2);
+
                     const monthLabel = `${monthNames[currentMonth.getMonth()]} ${year}`;
+
                     
+
                     const paid = allocations
+
                         .filter(a => a.playerId === playerId && a.monthKey === monthKey)
+
                         .reduce((sum, a) => sum + a.amount, 0);
+
                     
+
                     months.push({ monthKey, monthLabel, paid });
+
                     currentMonth.setMonth(currentMonth.getMonth() + 1);
+
                 }
+
                 
+
                 // Create ledger rows
+
                 months.forEach(month => {
+
                     const row = document.createElement('tr');
+
                     const due = 150;
+
                     const status = month.paid >= due ? 'Paid' : month.paid > 0 ? 'Partial' : 'Unpaid';
+
                     const statusColor = month.paid >= due ? 'var(--success)' : month.paid > 0 ? 'var(--warning)' : 'var(--danger)';
+
                     
+
                     row.innerHTML = `
+
                         <td style="font-weight: 600;">${month.monthLabel}</td>
+
                         <td style="color: ${month.paid >= due ? 'var(--success)' : 'var(--text)'}; font-weight: bold;">₹${month.paid}</td>
+
                         <td style="color: var(--text-light);">₹${due}</td>
+
                         <td>${statusPillHtml(month.paid)}</td>
+
                     `;
+
                     ledgerBody.appendChild(row);
+
                 });
+
             }
+
+
 
             // Load payment history
+
             const receiptsBody = document.getElementById('ppReceiptsBody');
+
             if (receiptsBody) {
+
                 receiptsBody.innerHTML = '';
+
                 const playerReceipts = receipts.filter(r => r.playerId === player.id).slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
                 
+
                 if (!playerReceipts.length) {
+
                     receiptsBody.innerHTML = '<tr><td colspan="3" style="opacity:0.75;">No payments recorded.</td></tr>';
+
                 } else {
+
                     playerReceipts.forEach(r => {
+
                         const row = document.createElement('tr');
+
                         row.innerHTML = `
+
                             <td>${formatDate(r.date)}</td>
+
                             <td><strong>₹${r.amount}</strong></td>
+
                             <td>${escapeHtml(r.note || '')}</td>
+
                         `;
+
                         receiptsBody.appendChild(row);
+
                     });
+
                 }
+
             }
+
         }
+
+
 
         function loadExpenses() {
+
             if (!isAdmin()) return;
+
             const list = document.getElementById('expensesList');
+
             if (!list) return;
 
+
+
             list.innerHTML = '';
+
             const sorted = expenses.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+
+
             if (!sorted.length) {
+
                 const empty = document.createElement('div');
+
                 empty.style.opacity = '0.75';
+
                 empty.textContent = 'No expenses recorded yet.';
+
                 list.appendChild(empty);
+
                 return;
+
             }
 
+
+
             sorted.forEach(ex => {
+
                 const el = document.createElement('div');
+
                 el.className = 'player-card';
+
                 el.innerHTML = `
+
                     <div style="display:flex; justify-content: space-between; align-items:center; gap:12px;">
+
                         <div>
+
                             <div style="font-weight:800; font-size:1.05rem;">${escapeHtml(expenseCategoryLabel(ex.category))}</div>
+
                             <div style="color: var(--text-light); font-size:0.85rem; margin-top:4px;">${formatDate(ex.date)}</div>
+
                             <div style="color: var(--text-light); font-size:0.85rem; margin-top:2px;">${escapeHtml(ex.description || '')}</div>
+
                         </div>
+
                         <div style="text-align:right;">
+
                             <div style="font-weight:900; color: var(--danger);">₹${ex.amount}</div>
+
                         </div>
+
                     </div>
+
                 `;
+
                 list.appendChild(el);
+
             });
+
         }
 
+
+
         function loadReports() {
+
             if (!isAdmin()) return;
+
             const container = document.getElementById('monthlyReports');
+
             if (!container) return;
 
+
+
             container.innerHTML = '';
+
             const monthKeys = new Set();
+
             expenses.forEach(ex => monthKeys.add(monthKeyFromDate(ex.date)));
+
             receipts.forEach(r => monthKeys.add(monthKeyFromDate(r.date)));
+
+
 
             const sortedMonths = Array.from(monthKeys).sort(compareMonthKeys).reverse();
 
+
+
             if (!sortedMonths.length) {
+
                 const empty = document.createElement('div');
+
                 empty.style.opacity = '0.75';
+
                 empty.textContent = 'No data available for reports.';
+
                 container.appendChild(empty);
+
                 return;
+
             }
+
+
 
             sortedMonths.forEach(monthKey => {
+
                 const collected = receipts
+
                     .filter(r => monthKeyFromDate(r.date) === monthKey)
+
                     .reduce((sum, r) => sum + r.amount, 0);
+
                 const spent = expenses
+
                     .filter(ex => monthKeyFromDate(ex.date) === monthKey)
+
                     .reduce((sum, ex) => sum + ex.amount, 0);
+
                 const opening = getBalanceBeforeMonth(monthKey);
+
                 const remaining = opening + collected - spent;
 
+
+
                 const report = document.createElement('div');
+
                 report.className = 'player-card';
+
                 report.innerHTML = `
+
                     <div style="display:flex; justify-content: space-between; align-items:center; gap:12px;">
+
                         <div>
+
                             <div style="font-weight:800; font-size:1.05rem;">${escapeHtml(monthLabelFromKey(monthKey))}</div>
+
                             <div style="color: var(--text-light); font-size:0.85rem; margin-top:4px;">Opening: ₹${opening}</div>
+
                         </div>
+
                         <div style="text-align:right;">
+
                             <div style="font-weight:900; color: var(--success);">₹${collected}</div>
+
                             <div style="color: var(--danger); font-size:0.8rem;">-₹${spent}</div>
+
                             <div style="font-weight:900; color: var(--primary); margin-top:4px;">₹${remaining}</div>
+
                         </div>
+
                     </div>
+
                 `;
+
                 container.appendChild(report);
+
             });
+
         }
+
+
 
         function setupEventListeners() {
+
+            const profileBtn = document.getElementById('profileBtn');
+
+            const profileMenu = document.getElementById('profileMenu');
+
+            const profileLogoutItem = document.getElementById('profileLogoutItem');
+
+            const profileChangePasswordItem = document.getElementById('profileChangePasswordItem');
+
+            const profileResetDataItem = document.getElementById('profileResetDataItem');
+
+
+
+            if (profileBtn && profileMenu) {
+
+                profileBtn.addEventListener('click', (e) => {
+
+                    e.stopPropagation();
+
+                    profileMenu.classList.toggle('hidden');
+
+                });
+
+
+
+                document.addEventListener('click', () => {
+
+                    profileMenu.classList.add('hidden');
+
+                });
+
+
+
+                if (profileLogoutItem) {
+
+                    profileLogoutItem.addEventListener('click', (e) => {
+
+                        e.stopPropagation();
+
+                        profileMenu.classList.add('hidden');
+
+                        if (logoutBtn) logoutBtn.click();
+
+                    });
+
+                }
+
+
+
+                if (profileChangePasswordItem) {
+
+                    profileChangePasswordItem.addEventListener('click', (e) => {
+
+                        e.stopPropagation();
+
+                        profileMenu.classList.add('hidden');
+
+                        if (changePasswordBtn) changePasswordBtn.click();
+
+                    });
+
+                }
+
+
+
+                if (profileResetDataItem) {
+
+                    profileResetDataItem.addEventListener('click', (e) => {
+
+                        e.stopPropagation();
+
+                        profileMenu.classList.add('hidden');
+
+                        if (resetDataBtn) resetDataBtn.click();
+
+                    });
+
+                }
+
+            }
+
+
+
             themeToggle.addEventListener('click', () => {
+
                 document.body.classList.toggle('dark-mode');
+
                 const isDark = document.body.classList.contains('dark-mode');
+
                 localStorage.setItem('gtmTheme', isDark ? 'dark' : 'light');
+
                 themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+
             });
+
+
 
             const topTabDashboard = document.getElementById('topTabDashboard');
+
             if (topTabDashboard) topTabDashboard.addEventListener('click', () => showTopPanel('dashboard'));
 
+
+
             const topTabManagement = document.getElementById('topTabManagement');
+
             if (topTabManagement) topTabManagement.addEventListener('click', () => showTopPanel('management'));
 
+
+
             const topTabPlayerPayments = document.getElementById('topTabPlayerPayments');
+
             if (topTabPlayerPayments) topTabPlayerPayments.addEventListener('click', () => showTopPanel('playerPayments'));
 
+
+
             const menuToggle = document.getElementById('menuToggle');
+
             const headerActions = document.getElementById('headerActions');
+
             if (menuToggle && headerActions) {
+
                 menuToggle.addEventListener('click', (e) => {
+
                     e.stopPropagation();
+
                     const isOpen = headerActions.classList.toggle('open');
+
                     menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
                 });
+
             }
+
+
 
             const collectedCard = document.getElementById('cardCollected');
+
             if (collectedCard) collectedCard.addEventListener('click', () => renderCollectedListModal());
 
+
+
             const expensesCard = document.getElementById('cardExpenses');
+
             if (expensesCard) expensesCard.addEventListener('click', () => renderExpenseListModal());
 
+
+
             const closeMonthDetails = document.getElementById('closeMonthDetailsModal');
+
             if (closeMonthDetails) closeMonthDetails.addEventListener('click', closeMonthDetailsModal);
 
+
+
             document.getElementById('prevMonth').addEventListener('click', () => {
+
                 currentViewDate.setMonth(currentViewDate.getMonth() - 1);
+
                 currentViewDate = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth(), 1);
+
                 updateMonthUI();
+
                 loadDashboard();
+
                 loadPlayers();
+
                 loadExpenses();
+
                 loadReports();
+
                 if (isPlayerMode() && isPlayer()) renderPlayerMode(currentSession.playerId);
+
             });
+
+
 
             document.getElementById('nextMonth').addEventListener('click', () => {
+
                 currentViewDate.setMonth(currentViewDate.getMonth() + 1);
+
                 currentViewDate = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth(), 1);
+
                 updateMonthUI();
+
                 loadDashboard();
+
                 loadPlayers();
+
                 loadExpenses();
+
                 loadReports();
+
                 if (isPlayerMode() && isPlayer()) renderPlayerMode(currentSession.playerId);
+
             });
+
+
 
             loginBtn.addEventListener('click', () => openAuthModal());
+
             logoutBtn.addEventListener('click', () => {
+
+                if (isFirebaseAdminSignedIn()) {
+
+                    auth.signOut().catch((err) => {
+
+                        console.error('Firebase signOut failed:', err);
+
+                    });
+
+                    return;
+
+                }
+
+
+
                 currentSession = null;
+
                 localStorage.removeItem('gtmSession');
+
                 const pv = document.getElementById('playerView');
+
                 if (pv) pv.classList.add('hidden');
+
                 applyRoleUI();
+
                 showTopPanel('dashboard');
+
                 loadDashboard();
+
                 loadPlayers();
+
                 loadExpenses();
+
                 loadReports();
+
             });
+
+
 
             changePasswordBtn.addEventListener('click', () => {
+
                 if (!isAdmin()) return;
+
                 changePasswordModal.style.display = 'flex';
+
                 document.getElementById('currentAdminPassword').value = '';
+
                 document.getElementById('newAdminPassword').value = '';
+
                 document.getElementById('confirmAdminPassword').value = '';
+
             });
+
+
 
             resetDataBtn.addEventListener('click', () => {
+
                 if (!isAdmin()) return;
+
                 if (!confirm('Are you sure you want to reset ALL data? This will delete players, payments, expenses, and admin password. This action cannot be undone.')) {
+
                     return;
+
                 }
+
                 if (!confirm('This is your FINAL warning. All data will be permanently deleted. Click OK to proceed.')) {
+
                     return;
+
                 }
-                localStorage.clear();
-                location.reload();
+
+                if (!isFirebaseAdminSignedIn()) {
+
+                    alert('Admin is not authenticated with Firebase. Please login again.');
+
+                    return;
+
+                }
+
+
+
+                stateRef.set({
+
+                    players: [],
+
+                    expenses: [],
+
+                    receipts: [],
+
+                    allocations: [],
+
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+
+                }, { merge: true }).then(() => {
+
+                    location.reload();
+
+                }).catch((err) => {
+
+                    console.error('Reset data failed:', err);
+
+                    alert('Reset failed. Check console / Firestore rules.');
+
+                });
+
             });
+
+
 
             document.getElementById('closeAuthModal').addEventListener('click', closeAuthModal);
+
             document.getElementById('cancelAuthBtn').addEventListener('click', closeAuthModal);
 
+
+
             document.getElementById('closeChangePasswordModal').addEventListener('click', () => {
+
                 changePasswordModal.style.display = 'none';
+
             });
+
             document.getElementById('cancelChangePasswordBtn').addEventListener('click', () => {
+
                 changePasswordModal.style.display = 'none';
+
             });
+
+
 
             document.getElementById('authRole').addEventListener('change', () => {
+
                 populateAuthPlayers();
+
                 syncAuthFields();
+
             });
+
+
 
             document.getElementById('authPlayerSelect').addEventListener('change', () => {
+
                 const idStr = document.getElementById('authPlayerSelect').value;
+
                 const phoneEl = document.getElementById('authPhone');
+
                 if (!idStr) return;
+
                 const p = players.find(x => x.id === parseInt(idStr, 10));
+
                 if (p) phoneEl.value = p.phone;
+
             });
+
+
 
             document.getElementById('authForm').addEventListener('submit', (e) => {
+
                 e.preventDefault();
+
                 const role = document.getElementById('authRole').value;
 
+
+
                 if (role === 'admin') {
-                    const pass = (document.getElementById('authPassword').value || '').trim();
-                    const adminPassword = localStorage.getItem('gtmAdminPassword') || 'admin';
-                    if (pass !== adminPassword) {
-                        alert('Invalid admin password.');
+
+                    if (!auth) {
+
+                        alert('Firebase Auth not initialized.');
+
                         return;
+
                     }
 
-                    currentSession = { role: 'admin' };
-                    localStorage.setItem('gtmSession', JSON.stringify(currentSession));
-                    closeAuthModal();
-                    applyRoleUI();
-                    showTopPanel('dashboard');
-                    loadDashboard();
-                    loadPlayers();
-                    loadExpenses();
-                    loadReports();
+
+
+                    const email = (document.getElementById('authAdminEmail').value || '').trim();
+
+                    const pass = (document.getElementById('authPassword').value || '').trim();
+
+                    if (!email) {
+
+                        alert('Please enter admin email.');
+
+                        return;
+
+                    }
+
+                    if (!pass) {
+
+                        alert('Please enter admin password.');
+
+                        return;
+
+                    }
+
+
+
+                    auth.signInWithEmailAndPassword(email, pass)
+
+                        .then((cred) => {
+
+                            const user = cred && cred.user ? cred.user : null;
+
+                            if (!user || user.uid !== FIREBASE_ADMIN_UID) {
+
+                                return auth.signOut().then(() => {
+
+                                    alert('This account is not authorized as admin.');
+
+                                });
+
+                            }
+
+
+
+                            localStorage.removeItem('gtmSession');
+
+                            currentSession = { role: 'admin' };
+
+                            closeAuthModal();
+
+                            applyRoleUI();
+
+                            showTopPanel('dashboard');
+
+                            loadDashboard();
+
+                            loadPlayers();
+
+                            loadExpenses();
+
+                            loadReports();
+
+                        })
+
+                        .catch((err) => {
+
+                            console.error('Admin login failed:', err);
+
+                            alert('Admin login failed. Check email/password.');
+
+                        });
+
                     return;
+
                 }
+
+
 
                 const phone = (document.getElementById('authPhone').value || '').trim();
+
                 if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+
                     alert('Please enter a valid 10-digit phone number.');
+
                     return;
+
                 }
+
+
 
                 let player = null;
+
                 const selectedIdStr = document.getElementById('authPlayerSelect').value;
+
                 if (selectedIdStr) {
+
                     const selectedId = parseInt(selectedIdStr, 10);
+
                     player = players.find(p => p.id === selectedId);
+
                     if (!player) {
+
                         alert('Player not found.');
+
                         return;
+
                     }
+
                     if (phone !== player.phone) {
+
                         alert('Invalid phone number for selected player.');
+
                         return;
+
                     }
+
                 } else {
+
                     player = players.find(p => p.phone === phone);
+
                     if (!player) {
+
                         alert('Player not found. Ask admin to add you first.');
+
                         return;
+
                     }
+
                 }
+
+
 
                 currentSession = { role: 'player', playerId: player.id, phone: phone };
+
                 localStorage.setItem('gtmSession', JSON.stringify(currentSession));
+
                 window.location.href = `index.html?mode=player&playerId=${player.id}&tab=payments`;
+
             });
+
+
 
             document.getElementById('changePasswordForm').addEventListener('submit', (e) => {
+
                 e.preventDefault();
+
                 if (!isAdmin()) return;
+
                 const current = (document.getElementById('currentAdminPassword').value || '').trim();
+
                 const next = (document.getElementById('newAdminPassword').value || '').trim();
+
                 const confirm = (document.getElementById('confirmAdminPassword').value || '').trim();
 
-                const adminPassword = localStorage.getItem('gtmAdminPassword') || 'admin';
-                if (current !== adminPassword) {
-                    alert('Current password is incorrect.');
+
+
+                if (!isFirebaseAdminSignedIn()) {
+
+                    alert('Admin is not authenticated with Firebase. Please login again.');
+
                     return;
+
                 }
+
+
 
                 if (!next) {
+
                     alert('New password cannot be empty.');
+
                     return;
+
                 }
+
+
 
                 if (next !== confirm) {
+
                     alert('New password and confirm password do not match.');
+
                     return;
+
                 }
 
-                localStorage.setItem('gtmAdminPassword', next);
-                changePasswordModal.style.display = 'none';
-                alert('Password updated successfully.');
+
+
+                const user = auth.currentUser;
+
+                const email = user && user.email ? user.email : '';
+
+                if (!email) {
+
+                    alert('Admin email not available.');
+
+                    return;
+
+                }
+
+
+
+                const credential = firebase.auth.EmailAuthProvider.credential(email, current);
+
+                user.reauthenticateWithCredential(credential)
+
+                    .then(() => user.updatePassword(next))
+
+                    .then(() => {
+
+                        changePasswordModal.style.display = 'none';
+
+                        alert('Password updated successfully.');
+
+                    })
+
+                    .catch((err) => {
+
+                        console.error('Password update failed:', err);
+
+                        alert('Password update failed. Current password may be wrong.');
+
+                    });
+
             });
+
+
 
             document.getElementById('addPlayerBtn').addEventListener('click', () => {
+
                 if (!requireAdminOrAlert()) return;
+
                 playerModal.style.display = 'flex';
+
             });
+
+
 
             document.getElementById('closePlayerModal').addEventListener('click', () => { playerModal.style.display = 'none'; });
+
             document.getElementById('cancelPlayerBtn').addEventListener('click', () => { playerModal.style.display = 'none'; });
+
             document.getElementById('addPlayerForm').addEventListener('submit', addNewPlayer);
 
+
+
             document.getElementById('addExpenseBtn').addEventListener('click', () => {
+
                 if (!requireAdminOrAlert()) return;
+
                 expenseModal.style.display = 'flex';
+
                 document.getElementById('expenseDate').valueAsDate = new Date();
+
             });
+
             document.getElementById('closeExpenseModal').addEventListener('click', () => { expenseModal.style.display = 'none'; });
+
             document.getElementById('cancelExpenseBtn').addEventListener('click', () => { expenseModal.style.display = 'none'; });
+
             document.getElementById('addExpenseForm').addEventListener('submit', addNewExpense);
 
+
+
             document.getElementById('closeDetailsModal').addEventListener('click', () => { playerDetailsModal.style.display = 'none'; });
+
             document.getElementById('addEntryForm').addEventListener('submit', addNewEntry);
 
+
+
             const playerSearch = document.getElementById('playerSearch');
+
             if (playerSearch) {
+
                 playerSearch.addEventListener('input', () => {
+
                     if (!isAdmin()) return;
+
                     const q = (playerSearch.value || '').trim().toLowerCase();
+
                     const list = document.getElementById('playersList');
+
                     if (!list) return;
+
                     list.innerHTML = '';
+
                     players
+
                         .filter(p => p.name.toLowerCase().includes(q))
+
                         .sort((a, b) => a.name.localeCompare(b.name))
+
                         .forEach(p => list.appendChild(renderPlayerCard(p)));
+
                 });
+
             }
 
+
+
             const tabs = document.querySelectorAll('.tab');
+
             tabs.forEach(tab => {
+
                 tab.addEventListener('click', () => {
+
                     if (!isAdmin()) return;
+
                     tabs.forEach(t => t.classList.remove('active'));
+
                     tab.classList.add('active');
+
+
 
                     const all = document.querySelectorAll('.tab-content');
+
                     all.forEach(c => c.classList.remove('active'));
+
                     const id = tab.getAttribute('data-tab');
+
                     const content = document.getElementById(id);
+
                     if (content) content.classList.add('active');
+
                 });
+
             });
+
+
 
             const playerTabs = document.querySelectorAll('.player-tab');
+
             playerTabs.forEach(tab => {
+
                 tab.addEventListener('click', () => {
+
                     playerTabs.forEach(t => t.classList.remove('active'));
+
                     tab.classList.add('active');
 
+
+
                     const all = document.querySelectorAll('.player-tab-content');
+
                     all.forEach(c => c.classList.remove('active'));
+
                     const targetTab = tab.getAttribute('data-tab');
+
                     const content = document.getElementById('player' + targetTab.charAt(0).toUpperCase() + targetTab.slice(1) + 'Tab');
+
                     if (content) content.classList.add('active');
+
                 });
+
             });
+
+
 
             window.addEventListener('click', (e) => {
+
                 if (e.target === playerModal) playerModal.style.display = 'none';
+
                 if (e.target === expenseModal) expenseModal.style.display = 'none';
+
                 if (e.target === playerDetailsModal) playerDetailsModal.style.display = 'none';
+
                 if (e.target === authModal) authModal.style.display = 'none';
+
                 if (e.target === changePasswordModal) changePasswordModal.style.display = 'none';
+
                 const monthDetailsModal = document.getElementById('monthDetailsModal');
+
                 if (monthDetailsModal && e.target === monthDetailsModal) monthDetailsModal.style.display = 'none';
 
+
+
                 const menuToggle = document.getElementById('menuToggle');
+
                 const headerActions = document.getElementById('headerActions');
+
                 if (menuToggle && headerActions && headerActions.classList.contains('open')) {
+
                     const clickedInsideMenu = headerActions.contains(e.target);
+
                     const clickedToggle = menuToggle.contains(e.target);
+
                     if (!clickedInsideMenu && !clickedToggle) {
+
                         headerActions.classList.remove('open');
+
                         menuToggle.setAttribute('aria-expanded', 'false');
+
                     }
+
                 }
+
             });
+
         }
+
+
 
         function initApp() {
             migrateLegacyDataIfNeeded();
 
-            players = JSON.parse(localStorage.getItem('gtmPlayers')) || [];
-            expenses = JSON.parse(localStorage.getItem('gtmExpenses')) || [];
-            receipts = JSON.parse(localStorage.getItem('gtmReceipts')) || [];
-            allocations = JSON.parse(localStorage.getItem('gtmAllocations')) || [];
+            initFirebase();
+            subscribeToState();
 
             currentSession = JSON.parse(localStorage.getItem('gtmSession')) || null;
 
@@ -2925,6 +6399,45 @@
             setupEventListeners();
             updateMonthUI();
             applyRoleUI();
+
+            if (auth) {
+                auth.onAuthStateChanged((user) => {
+                    const isAdminUser = !!user && user.uid === FIREBASE_ADMIN_UID;
+                    if (isAdminUser) {
+                        currentSession = { role: 'admin' };
+                        localStorage.removeItem('gtmSession');
+                    } else {
+                        if (currentSession && currentSession.role === 'admin') {
+                            currentSession = null;
+                        }
+                    }
+
+                    applyRoleUI();
+                    applyStateAndRefreshUI();
+
+                    // One-time migration offer (only when cloud is empty)
+                    if (isAdminUser && stateRef && !didOfferMigration) {
+                        stateRef.get().then((doc) => {
+                            if (doc && doc.exists) return;
+                            didOfferMigration = true;
+                            const backup = getLocalBackupData();
+                            const hasBackup = (backup.players && backup.players.length)
+                                || (backup.expenses && backup.expenses.length)
+                                || (backup.receipts && backup.receipts.length)
+                                || (backup.allocations && backup.allocations.length);
+                            if (hasBackup && confirm('Cloud data is empty. Upload your current local browser data to cloud?')) {
+                                players = backup.players || [];
+                                expenses = backup.expenses || [];
+                                receipts = backup.receipts || [];
+                                allocations = backup.allocations || [];
+                                saveData();
+                            }
+                        }).catch((err) => {
+                            console.error('Failed to check cloud state:', err);
+                        });
+                    }
+                });
+            }
             
             // Check if player should see payments tab
             if (isPlayerMode() && currentSession && currentSession.role === 'player') {
@@ -2938,18 +6451,14 @@
                 showTopPanel('dashboard');
             }
 
-            loadDashboard();
-            loadPlayers();
-            loadExpenses();
-            loadReports();
-
-            if (isPlayerMode() && currentSession && currentSession.role === 'player') {
-                renderPlayerMode(currentSession.playerId);
-            }
+            // UI will render once Firestore snapshot arrives
         }
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', initApp);
+
     </script>
+
 </body>
+
 </html>
