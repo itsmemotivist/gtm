@@ -889,55 +889,6 @@
             justify-content: flex-end;
         }
 
-        .profile-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .profile-dropdown #profileBtn i:last-child {
-            font-size: 0.8rem;
-            margin-left: 4px;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            min-width: 190px;
-            z-index: 1000;
-            margin-top: 6px;
-            overflow: hidden;
-        }
-
-        .dropdown-item {
-            width: 100%;
-            padding: 12px 14px;
-            border: none;
-            background: none;
-            color: var(--text);
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.92rem;
-            transition: background 0.2s;
-        }
-
-        .dropdown-item:hover {
-            background: rgba(212, 175, 55, 0.10);
-        }
-
-        .dropdown-item i {
-            width: 16px;
-            text-align: center;
-        }
-
         .year-nav-btn {
             background: rgba(255,255,255,0.08);
             border: 1px solid var(--border);
@@ -978,27 +929,17 @@
                 <button class="btn btn-primary" id="loginBtn">
                     <i class="fas fa-right-to-bracket"></i> Login
                 </button>
-                <div class="profile-dropdown hidden" id="profileDropdown">
-                    <button class="btn btn-primary" id="profileBtn" type="button">
-                        <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dropdown-menu hidden" id="profileMenu">
-                        <button class="dropdown-item" id="profileLogoutItem" type="button">
-                            <i class="fas fa-right-from-bracket"></i> Logout
-                        </button>
-                        <button class="dropdown-item" id="profileChangePasswordItem" type="button">
-                            <i class="fas fa-key"></i> Change Password
-                        </button>
-                        <button class="dropdown-item" id="profileResetDataItem" type="button">
-                            <i class="fas fa-trash-alt"></i> Reset Data
-                        </button>
-                    </div>
-                </div>
                 <button class="btn btn-danger hidden" id="logoutBtn">
                     <i class="fas fa-right-from-bracket"></i> Logout
                 </button>
                 <button class="btn btn-primary hidden" id="changePasswordBtn" data-admin-only="true">
                     <i class="fas fa-key"></i> Change Password
+                </button>
+                <button class="btn btn-warning hidden" id="backupDataBtn" data-admin-only="true">
+                    <i class="fas fa-download"></i> Backup
+                </button>
+                <button class="btn btn-success hidden" id="restoreDataBtn" data-admin-only="true">
+                    <i class="fas fa-upload"></i> Restore
                 </button>
                 <button class="btn btn-danger hidden" id="resetDataBtn" data-admin-only="true">
                     <i class="fas fa-trash-alt"></i> Reset Data
@@ -1542,6 +1483,20 @@
             const stamp = String(Date.now());
             try { localStorage.setItem(gtmSyncKey, stamp); } catch {}
             try { if (gtmSyncChannel) gtmSyncChannel.postMessage({ type: 'dataUpdate', stamp }); } catch {}
+
+            // Cross-browser sync using Storage API
+            try {
+                const data = {
+                    players: players,
+                    expenses: expenses,
+                    receipts: receipts,
+                    allocations: allocations,
+                    timestamp: stamp
+                };
+                localStorage.setItem('gtmCrossBrowserSync', JSON.stringify(data));
+            } catch (e) {
+                console.log('Cross-browser sync failed:', e);
+            }
         }
 
         function reloadCoreDataFromStorage() {
@@ -1549,6 +1504,28 @@
             expenses = JSON.parse(localStorage.getItem('gtmExpenses')) || [];
             receipts = JSON.parse(localStorage.getItem('gtmReceipts')) || [];
             allocations = JSON.parse(localStorage.getItem('gtmAllocations')) || [];
+        }
+
+        function syncFromCrossBrowserData() {
+            try {
+                const syncData = localStorage.getItem('gtmCrossBrowserSync');
+                if (!syncData) return;
+
+                const data = JSON.parse(syncData);
+                const currentTimestamp = localStorage.getItem('gtmLastUpdate') || '0';
+
+                if (data.timestamp > currentTimestamp) {
+                    players = data.players || [];
+                    expenses = data.expenses || [];
+                    receipts = data.receipts || [];
+                    allocations = data.allocations || [];
+
+                    localStorage.setItem('gtmLastUpdate', data.timestamp);
+                    refreshUIAfterDataUpdate();
+                }
+            } catch (e) {
+                console.log('Cross-browser sync error:', e);
+            }
         }
 
         function refreshUIAfterDataUpdate() {
@@ -1775,19 +1752,10 @@
 
             // Update login/logout buttons
             if (loginBtn) loginBtn.classList.toggle('hidden', isAdminUser || isPlayerUser);
-            if (logoutBtn) logoutBtn.classList.toggle('hidden', !isPlayerUser);
-            if (changePasswordBtn) changePasswordBtn.classList.add('hidden');
-            if (resetDataBtn) resetDataBtn.classList.add('hidden');
-            if (profileDropdown) profileDropdown.classList.toggle('hidden', !isAdminUser);
-
-            const profileBtn = document.getElementById('profileBtn');
-            if (profileBtn) {
-                if (isAdminUser) {
-                    profileBtn.innerHTML = '<i class="fas fa-user-circle"></i> Admin <i class="fas fa-chevron-down"></i>';
-                } else {
-                    profileBtn.innerHTML = '<i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down"></i>';
-                }
-            }
+            if (logoutBtn) logoutBtn.classList.toggle('hidden', !isAdminUser && !isPlayerUser);
+            if (changePasswordBtn) changePasswordBtn.classList.toggle('hidden', !isAdminUser);
+            if (resetDataBtn) resetDataBtn.classList.toggle('hidden', !isAdminUser);
+            if (profileDropdown) profileDropdown.classList.add('hidden');
         }
 
         function closeMobileMenu() {
@@ -2712,47 +2680,6 @@
         }
 
         function setupEventListeners() {
-            const profileBtn = document.getElementById('profileBtn');
-            const profileMenu = document.getElementById('profileMenu');
-            const profileLogoutItem = document.getElementById('profileLogoutItem');
-            const profileChangePasswordItem = document.getElementById('profileChangePasswordItem');
-            const profileResetDataItem = document.getElementById('profileResetDataItem');
-
-            if (profileBtn && profileMenu) {
-                profileBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    profileMenu.classList.toggle('hidden');
-                });
-
-                document.addEventListener('click', () => {
-                    profileMenu.classList.add('hidden');
-                });
-
-                if (profileLogoutItem) {
-                    profileLogoutItem.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        profileMenu.classList.add('hidden');
-                        if (logoutBtn) logoutBtn.click();
-                    });
-                }
-
-                if (profileChangePasswordItem) {
-                    profileChangePasswordItem.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        profileMenu.classList.add('hidden');
-                        if (changePasswordBtn) changePasswordBtn.click();
-                    });
-                }
-
-                if (profileResetDataItem) {
-                    profileResetDataItem.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        profileMenu.classList.add('hidden');
-                        if (resetDataBtn) resetDataBtn.click();
-                    });
-                }
-            }
-
             themeToggle.addEventListener('click', () => {
                 document.body.classList.toggle('dark-mode');
                 const isDark = document.body.classList.contains('dark-mode');
@@ -2848,6 +2775,93 @@
                 localStorage.clear();
                 location.reload();
             });
+
+            // Backup functionality
+            const backupDataBtn = document.getElementById('backupDataBtn');
+            if (backupDataBtn) {
+                backupDataBtn.addEventListener('click', () => {
+                    if (!isAdmin()) return;
+                    
+                    const data = {
+                        players: players,
+                        expenses: expenses,
+                        receipts: receipts,
+                        allocations: allocations,
+                        adminPassword: localStorage.getItem('gtmAdminPassword'),
+                        exportDate: new Date().toISOString()
+                    };
+                    
+                    const dataStr = JSON.stringify(data, null, 2);
+                    const blob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `gtm-backup-${new Date().toISOString().split('T')[0]}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    alert('Backup downloaded successfully!');
+                });
+            }
+
+            // Restore functionality
+            const restoreDataBtn = document.getElementById('restoreDataBtn');
+            if (restoreDataBtn) {
+                restoreDataBtn.addEventListener('click', () => {
+                    if (!isAdmin()) return;
+                    
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.json';
+                    
+                    input.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            try {
+                                const data = JSON.parse(event.target.result);
+                                
+                                if (!data.players || !data.expenses || !data.receipts || !data.allocations) {
+                                    alert('Invalid backup file format!');
+                                    return;
+                                }
+                                
+                                if (!confirm('This will overwrite ALL current data. Are you sure you want to continue?')) {
+                                    return;
+                                }
+                                
+                                players = data.players;
+                                expenses = data.expenses;
+                                receipts = data.receipts;
+                                allocations = data.allocations;
+                                
+                                if (data.adminPassword) {
+                                    localStorage.setItem('gtmAdminPassword', data.adminPassword);
+                                }
+                                
+                                saveData();
+                                loadPlayers();
+                                loadExpenses();
+                                loadReports();
+                                loadDashboard();
+                                
+                                alert('Data restored successfully!');
+                            } catch (error) {
+                                alert('Error reading backup file: ' + error.message);
+                            }
+                        };
+                        
+                        reader.readAsText(file);
+                    };
+                    
+                    input.click();
+                });
+            }
 
             document.getElementById('closeAuthModal').addEventListener('click', closeAuthModal);
             document.getElementById('cancelAuthBtn').addEventListener('click', closeAuthModal);
@@ -3043,6 +3057,14 @@
                 document.body.classList.add('dark-mode');
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
             }
+
+            // Initialize cross-browser sync
+            syncFromCrossBrowserData();
+            
+            // Periodic sync check for cross-browser updates
+            setInterval(() => {
+                syncFromCrossBrowserData();
+            }, 5000); // Check every 5 seconds
 
             setupEventListeners();
             updateMonthUI();
