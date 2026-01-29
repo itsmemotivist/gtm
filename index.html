@@ -125,10 +125,34 @@
 
         .header-top {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+        }
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .header h1 {
@@ -163,12 +187,7 @@
         }
 
         .month-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            margin-top: 8px;
-            color: var(--text-light);
+            display: none;
         }
 
         .month-btn {
@@ -189,68 +208,6 @@
             transform: translateY(-1px);
             background: rgba(212, 175, 55, 0.12);
         }
-
-        /* Main Dashboard Cards */
-        .dashboard-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
-        .dashboard-card {
-            background: var(--card-bg);
-            border-radius: 14px;
-            padding: 14px 14px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-        }
-
-        .dashboard-card.clickable {
-            cursor: pointer;
-        }
-
-        .dashboard-card.clickable:hover {
-            transform: translateY(-1px);
-            border-color: rgba(212, 175, 55, 0.42);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .card-header i {
-            font-size: 1.15rem;
-            color: var(--accent);
-        }
-
-        .card-header h3 {
-            font-size: 0.92rem;
-            color: var(--text-light);
-            letter-spacing: 0.2px;
-        }
-
-        .card-amount {
-            font-size: 1.55rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            letter-spacing: 0.2px;
-        }
-
-        .card-note {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-top: 5px;
-        }
-
-        .total-amount { color: var(--accent); }
-        .total-expenses { color: var(--danger); }
-        .previous-balance { color: var(--warning); }
-        .players-summary { color: var(--accent); }
 
         /* Player Stats */
         .player-stats {
@@ -980,6 +937,30 @@
             width: 16px;
             text-align: center;
         }
+
+        .year-nav-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s;
+        }
+        .year-nav-btn:hover {
+            background: rgba(212, 175, 55, 0.12);
+            transform: translateY(-1px);
+        }
+        .year-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
     </style>
 </head>
 <body>
@@ -987,56 +968,43 @@
         <!-- Header -->
         <div class="header">
             <div class="header-top">
-                <h1><i class="fas fa-cricket"></i> GTM Cricket Team</h1>
+                <h1 class="main-title"><i class="fas fa-cricket"></i> GTM Cricket Team</h1>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="header-actions" id="headerActions">
-                    <span class="role-pill hidden" id="rolePill"></span>
-                    <button class="btn btn-primary" id="loginBtn">
-                        <i class="fas fa-right-to-bracket"></i> Login
-                    </button>
-                    <div class="profile-dropdown hidden" id="profileDropdown">
-                        <button class="btn btn-primary" id="profileBtn" type="button">
-                            <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dropdown-menu hidden" id="profileMenu">
-                            <button class="dropdown-item" id="profileLogoutItem" type="button">
-                                <i class="fas fa-right-from-bracket"></i> Logout
-                            </button>
-                            <button class="dropdown-item" id="profileChangePasswordItem" type="button">
-                                <i class="fas fa-key"></i> Change Password
-                            </button>
-                            <button class="dropdown-item" id="profileResetDataItem" type="button">
-                                <i class="fas fa-trash-alt"></i> Reset Data
-                            </button>
-                        </div>
-                    </div>
-                    <button class="btn btn-danger hidden" id="logoutBtn">
-                        <i class="fas fa-right-from-bracket"></i> Logout
-                    </button>
-                    <button class="btn btn-primary hidden" id="changePasswordBtn" data-admin-only="true">
-                        <i class="fas fa-key"></i> Change Password
-                    </button>
-                    <button class="btn btn-danger hidden" id="resetDataBtn" data-admin-only="true">
-                        <i class="fas fa-trash-alt"></i> Reset Data
-                    </button>
-                    <button class="btn btn-primary" id="themeToggle">
-                        <i class="fas fa-moon"></i> Dark Mode
-                    </button>
-                </div>
             </div>
-            <div class="current-month">
-                <i class="fas fa-calendar-alt"></i>
-                <span id="currentMonth">January 2024</span>
-            </div>
-            <div class="month-nav">
-                <button class="month-btn" id="prevMonth">
-                    <i class="fas fa-chevron-left"></i>
+            <div class="header-actions" id="headerActions">
+                <span class="role-pill hidden" id="rolePill"></span>
+                <button class="btn btn-primary" id="loginBtn">
+                    <i class="fas fa-right-to-bracket"></i> Login
                 </button>
-                <span style="font-size: 0.9rem; opacity: 0.8;">Navigate Months</span>
-                <button class="month-btn" id="nextMonth">
-                    <i class="fas fa-chevron-right"></i>
+                <div class="profile-dropdown hidden" id="profileDropdown">
+                    <button class="btn btn-primary" id="profileBtn" type="button">
+                        <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu hidden" id="profileMenu">
+                        <button class="dropdown-item" id="profileLogoutItem" type="button">
+                            <i class="fas fa-right-from-bracket"></i> Logout
+                        </button>
+                        <button class="dropdown-item" id="profileChangePasswordItem" type="button">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                        <button class="dropdown-item" id="profileResetDataItem" type="button">
+                            <i class="fas fa-trash-alt"></i> Reset Data
+                        </button>
+                    </div>
+                </div>
+                <button class="btn btn-danger hidden" id="logoutBtn">
+                    <i class="fas fa-right-from-bracket"></i> Logout
+                </button>
+                <button class="btn btn-primary hidden" id="changePasswordBtn" data-admin-only="true">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
+                <button class="btn btn-danger hidden" id="resetDataBtn" data-admin-only="true">
+                    <i class="fas fa-trash-alt"></i> Reset Data
+                </button>
+                <button class="btn btn-primary" id="themeToggle">
+                    <i class="fas fa-moon"></i> Dark Mode
                 </button>
             </div>
         </div>
@@ -1047,43 +1015,38 @@
             <button class="top-tab hidden" id="topTabPlayerPayments" data-player-only="true">My Payments</button>
         </div>
 
-        <!-- Dashboard Cards -->
+        <!-- Dashboard Panel -->
         <div id="dashboardPanel">
-        <div class="dashboard-cards">
-            <div class="dashboard-card clickable" id="cardCollected">
-                <div class="card-header">
-                    <i class="fas fa-hand-holding-dollar"></i>
-                    <h3>Total Collected</h3>
+        <div class="players-section" style="margin-top: 18px;">
+            <div class="section-header">
+                <h2><i class="fas fa-calendar"></i> Year <span id="yearDisplay">2026</span></h2>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="year-nav-btn" id="prevYear"><i class="fas fa-chevron-left"></i></button>
+                    <button class="year-nav-btn" id="nextYear"><i class="fas fa-chevron-right"></i></button>
                 </div>
-                <div class="card-amount total-amount" id="monthCollected">₹0</div>
-                <div class="card-note">Total payments received from all players</div>
             </div>
-
-            <div class="dashboard-card clickable" id="cardExpenses">
-                <div class="card-header">
-                    <i class="fas fa-credit-card"></i>
-                    <h3>Expenses (This Month)</h3>
-                </div>
-                <div class="card-amount total-expenses" id="totalExpenses">₹0</div>
-                <div class="card-note">Food, equipment & other costs</div>
-            </div>
-
-            <div class="dashboard-card" id="cardRemaining">
-                <div class="card-header">
-                    <i class="fas fa-wallet"></i>
-                    <h3>Remaining Balance (This Month)</h3>
-                </div>
-                <div class="card-amount total-amount" id="totalAmount">₹0</div>
-                <div class="card-note">Opening + Collected - Expenses</div>
-            </div>
-
-            <div class="dashboard-card hidden" id="cardPreviousBalance" data-admin-only="true">
-                <div class="card-header">
-                    <i class="fas fa-exchange-alt"></i>
-                    <h3>Previous Month Balance</h3>
-                </div>
-                <div class="card-amount previous-balance" id="previousBalance">₹0</div>
-                <div class="card-note">Carry forward from last month</div>
+            <div style="overflow:auto;">
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 80px;">Sr. No</th>
+                            <th style="min-width: 180px;">Player Name</th>
+                            <th>Jan</th>
+                            <th>Feb</th>
+                            <th>Mar</th>
+                            <th>Apr</th>
+                            <th>May</th>
+                            <th>Jun</th>
+                            <th>Jul</th>
+                            <th>Aug</th>
+                            <th>Sep</th>
+                            <th>Oct</th>
+                            <th>Nov</th>
+                            <th>Dec</th>
+                        </tr>
+                    </thead>
+                    <tbody id="year2026Body"></tbody>
+                </table>
             </div>
         </div>
 
@@ -1402,16 +1365,6 @@
                             <label for="authRole">Role *</label>
                             <select id="authRole" required>
                                 <option value="admin">Admin</option>
-                                <option value="player">Player</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row hidden" id="authPlayerSelectGroup">
-                        <div class="form-group">
-                            <label for="authPlayerSelect">Select Player *</label>
-                            <select id="authPlayerSelect">
-                                <option value="">Select player...</option>
                             </select>
                         </div>
                     </div>
@@ -2123,27 +2076,20 @@
 
             const phoneGroup = document.getElementById('authPhoneGroup');
             const passGroup = document.getElementById('authPasswordGroup');
-            const playerSelectGroup = document.getElementById('authPlayerSelectGroup');
             const phone = document.getElementById('authPhone');
             const pass = document.getElementById('authPassword');
 
-            if (!phoneGroup || !passGroup || !playerSelectGroup || !phone || !pass) return;
+            if (!phoneGroup || !passGroup || !phone || !pass) return;
 
-            if (role === 'player') {
-                playerSelectGroup.classList.remove('hidden');
-                phoneGroup.classList.remove('hidden');
-                passGroup.classList.add('hidden');
-
-                phone.required = true;
-                pass.required = false;
-                return;
-            }
-
-            playerSelectGroup.classList.add('hidden');
             phoneGroup.classList.add('hidden');
             passGroup.classList.remove('hidden');
             phone.required = false;
             pass.required = true;
+
+            const playerSelectGroup = document.getElementById('authPlayerSelectGroup');
+            if (playerSelectGroup) {
+                playerSelectGroup.classList.add('hidden');
+            }
         }
 
         function populateAuthPlayers() {
@@ -2199,6 +2145,58 @@
             if (totalExpensesEl) totalExpensesEl.textContent = `₹${spent}`;
             if (totalAmountEl) totalAmountEl.textContent = `₹${remaining}`;
             if (previousBalanceEl) previousBalanceEl.textContent = `₹${opening}`;
+
+            renderYear2026Table();
+        }
+
+        function renderYear2026Table() {
+            const body = document.getElementById('year2026Body');
+            const yearDisplay = document.getElementById('yearDisplay');
+            if (!body || !yearDisplay) return;
+
+            const year = parseInt(yearDisplay.textContent, 10);
+            const monthKeys = [];
+            for (let m = 1; m <= 12; m++) {
+                monthKeys.push(`${year}-${pad2(m)}`);
+            }
+
+            const list = players.slice().sort((a, b) => a.name.localeCompare(b.name));
+
+            body.innerHTML = '';
+            if (!list.length) {
+                body.innerHTML = '<tr><td colspan="14" style="opacity:0.75;">No players added yet.</td></tr>';
+                return;
+            }
+
+            list.forEach((p, idx) => {
+                const tr = document.createElement('tr');
+
+                let html = `
+                    <td>${idx + 1}</td>
+                    <td style="font-weight:800;">${escapeHtml(p.name)}</td>
+                `;
+
+                monthKeys.forEach(mk => {
+                    const paid = allocations
+                        .filter(a => a.playerId === p.id && a.monthKey === mk)
+                        .reduce((sum, a) => sum + a.amount, 0);
+
+                    if (paid >= 150) {
+                        html += `<td style="color: var(--success); font-weight:900;">₹${paid}</td>`;
+                        return;
+                    }
+
+                    if (paid > 0) {
+                        html += `<td style="color: var(--warning); font-weight:900;">₹${paid}</td>`;
+                        return;
+                    }
+
+                    html += '<td style="color: var(--text-light);">-</td>';
+                });
+
+                tr.innerHTML = html;
+                body.appendChild(tr);
+            });
         }
 
         function renderPlayerCard(player) {
@@ -2488,14 +2486,6 @@
             });
 
             openMonthDetailsModal();
-        }
-
-        function expenseCategoryLabel(v) {
-            if (v === 'food') return 'Food (Sunday)';
-            if (v === 'equipment') return 'Equipment (Bat/Ball)';
-            if (v === 'transport') return 'Transport';
-            if (v === 'other') return 'Other';
-            return v || '';
         }
 
         function renderExpenseListModal() {
@@ -2789,36 +2779,41 @@
                 });
             }
 
-            const collectedCard = document.getElementById('cardCollected');
-            if (collectedCard) collectedCard.addEventListener('click', () => renderCollectedListModal());
+            // Year navigation
+            const prevYear = document.getElementById('prevYear');
+            const nextYear = document.getElementById('nextYear');
+            const yearDisplay = document.getElementById('yearDisplay');
+            
+            function updateYearDisplay() {
+                if (!yearDisplay) return;
+                const year = parseInt(yearDisplay.textContent, 10);
+                if (prevYear) prevYear.disabled = year <= 2024;
+                if (nextYear) nextYear.disabled = year >= 2028;
+                renderYear2026Table();
+            }
 
-            const expensesCard = document.getElementById('cardExpenses');
-            if (expensesCard) expensesCard.addEventListener('click', () => renderExpenseListModal());
+            if (prevYear) {
+                prevYear.addEventListener('click', () => {
+                    const year = parseInt(yearDisplay.textContent, 10);
+                    if (year > 2024) {
+                        yearDisplay.textContent = year - 1;
+                        updateYearDisplay();
+                    }
+                });
+            }
 
-            const closeMonthDetails = document.getElementById('closeMonthDetailsModal');
-            if (closeMonthDetails) closeMonthDetails.addEventListener('click', closeMonthDetailsModal);
+            if (nextYear) {
+                nextYear.addEventListener('click', () => {
+                    const year = parseInt(yearDisplay.textContent, 10);
+                    if (year < 2028) {
+                        yearDisplay.textContent = year + 1;
+                        updateYearDisplay();
+                    }
+                });
+            }
 
-            document.getElementById('prevMonth').addEventListener('click', () => {
-                currentViewDate.setMonth(currentViewDate.getMonth() - 1);
-                currentViewDate = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth(), 1);
-                updateMonthUI();
-                loadDashboard();
-                loadPlayers();
-                loadExpenses();
-                loadReports();
-                if (isPlayerMode() && isPlayer()) renderPlayerMode(currentSession.playerId);
-            });
-
-            document.getElementById('nextMonth').addEventListener('click', () => {
-                currentViewDate.setMonth(currentViewDate.getMonth() + 1);
-                currentViewDate = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth(), 1);
-                updateMonthUI();
-                loadDashboard();
-                loadPlayers();
-                loadExpenses();
-                loadReports();
-                if (isPlayerMode() && isPlayer()) renderPlayerMode(currentSession.playerId);
-            });
+            // Initialize year navigation state
+            updateYearDisplay();
 
             loginBtn.addEventListener('click', () => openAuthModal());
             logoutBtn.addEventListener('click', () => {
@@ -2869,13 +2864,16 @@
                 syncAuthFields();
             });
 
-            document.getElementById('authPlayerSelect').addEventListener('change', () => {
-                const idStr = document.getElementById('authPlayerSelect').value;
-                const phoneEl = document.getElementById('authPhone');
-                if (!idStr) return;
-                const p = players.find(x => x.id === parseInt(idStr, 10));
-                if (p) phoneEl.value = p.phone;
-            });
+            const authPlayerSelect = document.getElementById('authPlayerSelect');
+            if (authPlayerSelect) {
+                authPlayerSelect.addEventListener('change', () => {
+                    const idStr = authPlayerSelect.value;
+                    const phoneEl = document.getElementById('authPhone');
+                    if (!idStr || !phoneEl) return;
+                    const p = players.find(x => x.id === parseInt(idStr, 10));
+                    if (p) phoneEl.value = p.phone;
+                });
+            }
 
             document.getElementById('authForm').addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -2901,36 +2899,8 @@
                     return;
                 }
 
-                const phone = (document.getElementById('authPhone').value || '').trim();
-                if (phone.length !== 10 || !/^\d+$/.test(phone)) {
-                    alert('Please enter a valid 10-digit phone number.');
-                    return;
-                }
-
-                let player = null;
-                const selectedIdStr = document.getElementById('authPlayerSelect').value;
-                if (selectedIdStr) {
-                    const selectedId = parseInt(selectedIdStr, 10);
-                    player = players.find(p => p.id === selectedId);
-                    if (!player) {
-                        alert('Player not found.');
-                        return;
-                    }
-                    if (phone !== player.phone) {
-                        alert('Invalid phone number for selected player.');
-                        return;
-                    }
-                } else {
-                    player = players.find(p => p.phone === phone);
-                    if (!player) {
-                        alert('Player not found. Ask admin to add you first.');
-                        return;
-                    }
-                }
-
-                currentSession = { role: 'player', playerId: player.id, phone: phone };
-                localStorage.setItem('gtmSession', JSON.stringify(currentSession));
-                window.location.href = `index.html?mode=player&playerId=${player.id}&tab=payments`;
+                alert('Only admin login is available.');
+                return;
             });
 
             document.getElementById('changePasswordForm').addEventListener('submit', (e) => {
@@ -3058,24 +3028,14 @@
 
             currentSession = JSON.parse(localStorage.getItem('gtmSession')) || null;
 
-            if (currentSession && currentSession.role === 'player' && !isPlayerMode()) {
-                window.location.href = `index.html?mode=player&playerId=${currentSession.playerId}`;
-                return;
+            if (currentSession && currentSession.role === 'player') {
+                currentSession = null;
+                localStorage.removeItem('gtmSession');
             }
 
             if (isPlayerMode()) {
-                if (!currentSession || currentSession.role !== 'player') {
-                    window.location.href = 'index.html';
-                    return;
-                }
-
-                const pidStr = getParam('playerId');
-                const pid = pidStr ? parseInt(pidStr, 10) : NaN;
-                const playerId = !isNaN(pid) ? pid : currentSession.playerId;
-                if (playerId !== currentSession.playerId) {
-                    window.location.href = `index.html?mode=player&playerId=${currentSession.playerId}`;
-                    return;
-                }
+                window.location.href = 'index.html';
+                return;
             }
 
             // Check for saved theme
@@ -3087,27 +3047,13 @@
             setupEventListeners();
             updateMonthUI();
             applyRoleUI();
-            
-            // Check if player should see payments tab
-            if (isPlayerMode() && currentSession && currentSession.role === 'player') {
-                const tab = getParam('tab');
-                if (tab === 'payments') {
-                    showTopPanel('playerPayments');
-                } else {
-                    showTopPanel('dashboard');
-                }
-            } else {
-                showTopPanel('dashboard');
-            }
+
+            showTopPanel('dashboard');
 
             loadDashboard();
             loadPlayers();
             loadExpenses();
             loadReports();
-
-            if (isPlayerMode() && currentSession && currentSession.role === 'player') {
-                renderPlayerMode(currentSession.playerId);
-            }
         }
 
         // Initialize the app
